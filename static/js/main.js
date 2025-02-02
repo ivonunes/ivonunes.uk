@@ -52,15 +52,13 @@ async function getComments(url) {
 	}
 }
 
-const body = document.querySelector("body");
-
 function mobileMenu() {
 	window.scrollTo({top: 0, behavior: 'smooth'});
-	body.classList.toggle("mobile-nav-open");
+	document.querySelector("body").classList.toggle("mobile-nav-open");
 }
 
 function closeMenu() {
-	body.classList.remove("mobile-nav-open");
+	document.querySelector("body").classList.remove("mobile-nav-open");
 }
 
 document.addEventListener("turbo:load", async (event) => {
