@@ -68,6 +68,8 @@ function closeMenu() {
 	body.classList.remove("mobile-nav-open");
 }
 
-if (document.querySelector(".github-repos")) {
-	getRepos();
-}
+document.addEventListener("turbo:load", async (event) => {
+	if (document.querySelector(".github-repos")) {
+		getRepos();
+	}
+});
