@@ -52,12 +52,7 @@ async function getComments(url) {
 	}
 }
 
-const navLink = document.querySelectorAll(".nav-link");
 const body = document.querySelector("body");
-const hamburger = document.querySelector(".hamburger");
-
-hamburger.addEventListener("click", mobileMenu);
-navLink.forEach(n => n.addEventListener("click", closeMenu));
 
 function mobileMenu() {
 	window.scrollTo({top: 0, behavior: 'smooth'});
@@ -69,6 +64,12 @@ function closeMenu() {
 }
 
 document.addEventListener("turbo:load", async (event) => {
+	const navLink = document.querySelectorAll(".nav-link");
+	const hamburger = document.querySelector(".hamburger");
+
+	hamburger.addEventListener("click", mobileMenu);
+	navLink.forEach(n => n.addEventListener("click", closeMenu));
+
 	if (document.querySelector(".github-repos")) {
 		getRepos();
 	}
