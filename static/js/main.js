@@ -2,15 +2,19 @@ let gitHubRepos = null;
 
 function displayRepos() {
 	const repoContainer = document.querySelector('.microblog_conversation');
-	repoContainer.innerHTML = '';
+	var reposHtml = '';
 	
 	if (gitHubRepos) {
 		for(let i = 0; i < gitHubRepos.length; i++) {
-			repoContainer.innerHTML += `<div class="microblog_post"><div class="microblog_user"><a href="${gitHubRepos[i].html_url}" target="_blank">${gitHubRepos[i].name}</a></div><div class="microblog_text"><p>${gitHubRepos[i].description || ''}</p></div><div class="microblog_time"><a href="${gitHubRepos[i].html_url}" target="_blank">Last updated on ${formatDate(gitHubRepos[i].updated_at)}</a></div></div>`;
+			reposHtml += `<div class="microblog_post"><div class="microblog_user"><a href="${gitHubRepos[i].html_url}" target="_blank">${gitHubRepos[i].name}</a></div><div class="microblog_text"><p>${gitHubRepos[i].description || ''}</p></div><div class="microblog_time"><a href="${gitHubRepos[i].html_url}" target="_blank">Last updated on ${formatDate(gitHubRepos[i].updated_at)}</a></div></div>`;
 		}
 	} else {
-		repoContainer.innerHTML = 'There was an error fetching the repositories.';
+		reposHtml = 'There was an error fetching the repositories.';
 	}
+
+	setTimeout(function () {
+		repoContainer.innerHTML = reposHtml;
+	}, 250);
 }
 
 function formatDate(dateString) {
@@ -46,7 +50,9 @@ async function getComments(url) {
 			(new Function(result))();
 			window.writeToBuffer = null;
 
-			document.querySelector('.microblog_conversation_wrapper').innerHTML = buffer;
+			setTimeout(function () {
+				document.querySelector('.microblog_conversation_wrapper').innerHTML = buffer;
+			}, 250);
 		}
 	} catch (error) {
 	}
