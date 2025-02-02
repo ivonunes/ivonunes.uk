@@ -29,6 +29,29 @@ async function getRepos(url) {
 	displayRepos();
 }
 
+async function getComments(url) {
+	const fetchUrl = "https://micro.blog/conversation.js?url=" + url;
+
+	try {
+		const response = await fetch(fetchUrl);
+		if (response.ok) {
+			let buffer = '';
+			window.writeToBuffer = function (text) {
+				buffer += text;
+			}
+
+			let result = await response.text();
+			result = result.replaceAll('document.write', 'window.writeToBuffer');
+
+			(new Function(result))();
+			window.writeToBuffer = null;
+
+			document.querySelector('.microblog_conversation_wrapper').innerHTML = buffer;
+		}
+	} catch (error) {
+	}
+}
+
 const navLink = document.querySelectorAll(".nav-link");
 const body = document.querySelector("body");
 const hamburger = document.querySelector(".hamburger");
