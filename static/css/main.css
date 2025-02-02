@@ -411,7 +411,7 @@ main {
 .site-nav ul {
   list-style: none;
   padding: 0;
-  margin-bottom: .5rem;
+  margin-bottom: -1.25rem;
   margin-top: 2.5rem;
 }
 
@@ -426,11 +426,13 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .nav-item {
   margin-left: 0.875rem;
   margin-right: 0.875rem;
+  margin-bottom: 1.75rem;
 }
 
 .nav-item i {
@@ -442,9 +444,10 @@ main {
   background-color: #0000001a;
   border: none;
   padding: 0.6em 1em;
-  border-radius: 20px;
+  border-radius: 28px;
   font-weight: 500;
   transition: background-color 0.1s ease-in;
+  display: inline-block;
 }
 
 .nav-item a:hover {
