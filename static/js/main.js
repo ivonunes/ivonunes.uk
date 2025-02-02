@@ -52,22 +52,7 @@ async function getComments(url) {
 	}
 }
 
-function mobileMenu() {
-	window.scrollTo({top: 0, behavior: 'smooth'});
-	document.querySelector("body").classList.toggle("mobile-nav-open");
-}
-
-function closeMenu() {
-	document.querySelector("body").classList.remove("mobile-nav-open");
-}
-
 document.addEventListener("turbo:load", async (event) => {
-	const navLink = document.querySelectorAll(".nav-link");
-	const hamburger = document.querySelector(".hamburger");
-
-	hamburger.addEventListener("click", mobileMenu);
-	navLink.forEach(n => n.addEventListener("click", closeMenu));
-
 	if (document.querySelector(".github-repos")) {
 		getRepos();
 	}
