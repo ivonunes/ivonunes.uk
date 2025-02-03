@@ -1,7 +1,7 @@
 <header class="header animate__animated animate__fadeInDown">
     <nav class="site-nav">
         {{- $avatar := .Site.Params.custom_avatar }}
-        <h1 class="site-title"><a href="/"><img id="avatar" class="u-photo" src="{{ if $avatar }}{{ $avatar }}{{ else }}{{ .Site.Author.avatar }}{{ end }}" width="36" height="36" />{{ .Site.Title }}</a></h1>
+        <h1 class="site-title"><a href="/"><img id="avatar" class="u-photo" src="{{ if $avatar }}{{ $avatar }}{{ else }}{{ .Site.Author.avatar }}{{ end }}" alt="Profile picture" width="36" height="36" />{{ .Site.Title }}</a></h1>
         <p class="p-note">Software engineer. Guitar addict.<br>Camera enthusiast. Gaming aficionado.</p>
         <ul class="nav-menu">
         {{- range .Site.Menus.main }}
