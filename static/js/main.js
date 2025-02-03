@@ -1,15 +1,15 @@
 let gitHubRepos = null;
 
 function displayRepos() {
-	const repoContainer = document.querySelector('.microblog_conversation');
-	var reposHtml = '';
+	const repoContainer = document.querySelector(".microblog_conversation");
+	var reposHtml = "";
 	
 	if (gitHubRepos) {
 		for(let i = 0; i < gitHubRepos.length; i++) {
-			reposHtml += `<div class="microblog_post"><div class="microblog_user"><a href="${gitHubRepos[i].html_url}" target="_blank">${gitHubRepos[i].name}</a></div><div class="microblog_text"><p>${gitHubRepos[i].description || ''}</p></div><div class="microblog_time"><a href="${gitHubRepos[i].html_url}" target="_blank">Last updated on ${formatDate(gitHubRepos[i].updated_at)}</a></div></div>`;
+			reposHtml += `<div class="microblog_post"><div class="microblog_user"><a href="${gitHubRepos[i].html_url}" target="_blank">${gitHubRepos[i].name}</a></div><div class="microblog_text"><p>${gitHubRepos[i].description || ""}</p></div><div class="microblog_time"><a href="${gitHubRepos[i].html_url}" target="_blank">Last updated on ${formatDate(gitHubRepos[i].updated_at)}</a></div></div>`;
 		}
 	} else {
-		reposHtml = 'There was an error fetching the repositories.';
+		reposHtml = "There was an error fetching the repositories.";
 	}
 
 	repoContainer.innerHTML = reposHtml;
@@ -37,18 +37,18 @@ async function getComments(url) {
 	try {
 		const response = await fetch(fetchUrl);
 		if (response.ok) {
-			let buffer = '';
+			let buffer = "";
 			window.writeToBuffer = function (text) {
 				buffer += text;
 			}
 
 			let result = await response.text();
-			result = result.replaceAll('document.write', 'window.writeToBuffer');
+			result = result.replaceAll("document.write", "window.writeToBuffer");
 
 			(new Function(result))();
 			window.writeToBuffer = null;
 
-			document.querySelector('.microblog_conversation_wrapper').innerHTML = buffer;
+			document.querySelector(".microblog_conversation_wrapper").innerHTML = buffer;
 		}
 	} catch (error) {
 	}

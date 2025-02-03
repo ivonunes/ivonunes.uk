@@ -83,11 +83,11 @@ td {
 html {
   font-size: 10px;
   font-family: var(--sans-serif-font);
-  scroll-behavior: smooth;
   height: 100%;
 }
 
 body {
+  background-color: #23a6d5;
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
   animation: gradientbg 15s ease infinite;
@@ -957,7 +957,6 @@ ul.grid img:hover {
 
 @media only screen and (max-width: 768px) {
   body {
-    overscroll-behavior: contain;
     line-height: 1.5111;
   }
 
