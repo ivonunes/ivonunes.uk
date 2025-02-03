@@ -12,9 +12,7 @@ function displayRepos() {
 		reposHtml = 'There was an error fetching the repositories.';
 	}
 
-	setTimeout(function () {
-		repoContainer.innerHTML = reposHtml;
-	}, 250);
+	repoContainer.innerHTML = reposHtml;
 }
 
 function formatDate(dateString) {
@@ -50,9 +48,7 @@ async function getComments(url) {
 			(new Function(result))();
 			window.writeToBuffer = null;
 
-			setTimeout(function () {
-				document.querySelector('.microblog_conversation_wrapper').innerHTML = buffer;
-			}, 250);
+			document.querySelector('.microblog_conversation_wrapper').innerHTML = buffer;
 		}
 	} catch (error) {
 	}
