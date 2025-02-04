@@ -41,12 +41,22 @@ async function getComments(url) {
 			window.writeToBuffer = function (text) {
 				buffer += text;
 			}
+			window.pushState = function (data, title, url) {
+				const params = new URLSearchParams(window.location.search);
+				const token = params.get("token");
+
+				if (token) {
+					history.pushState(data, title, url);
+				}
+			}
 
 			let result = await response.text();
 			result = result.replaceAll("document.write", "window.writeToBuffer");
+			result = result.replaceAll("history.pushState", "window.pushState");
 
 			(new Function(result))();
 			window.writeToBuffer = null;
+			window.pushState = null;
 
 			document.querySelector(".microblog_conversation_wrapper").innerHTML = buffer;
 		}
