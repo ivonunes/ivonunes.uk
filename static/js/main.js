@@ -77,3 +77,7 @@ document.addEventListener("turbo:load", () => {
     getRepos();
   }
 });
+
+document.addEventListener("turbo:before-render", (event) => {
+  event.detail.newBody.querySelector(".header")?.classList.remove("animate__animated", "animate__fadeInDown");
+});

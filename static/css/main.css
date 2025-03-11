@@ -322,7 +322,8 @@ textarea:focus {
   flex: 1;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .turbo-progress-bar {
@@ -361,9 +362,10 @@ main {
   margin-bottom: 2rem;
   margin-top: 0;
   vertical-align: middle;
-  width: 6.4rem;
+  width: 6.6rem;
   height: auto;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   transition: 0.2s filter ease-in-out;
 }
 
@@ -441,13 +443,16 @@ main {
 
 .nav-item a:link, .nav-item a:visited {
   color: #fff;
-  background-color: #0000001a;
+  background-color: #0000002a;
   border: none;
   padding: 0.4em 1em;
   border-radius: 28px;
   font-weight: 500;
   transition: background-color 0.1s ease-in;
   display: inline-block;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(16px);
 }
 
 .nav-item a:hover {
