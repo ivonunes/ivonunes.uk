@@ -84,6 +84,7 @@ html {
   font-size: 10px;
   font-family: var(--sans-serif-font);
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
