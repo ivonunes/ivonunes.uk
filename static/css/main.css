@@ -85,13 +85,13 @@ html {
   font-family: var(--sans-serif-font);
   height: 100%;
   scroll-behavior: smooth;
-}
-
-body {
   background-color: #23a6d5;
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
   animation: gradientbg 15s ease infinite;
+}
+
+body {
   color: var(--text);
   font-size: 1.8rem;
   line-height: 1.5666;

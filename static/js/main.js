@@ -1,4 +1,5 @@
 let gitHubRepos = null;
+let clickTime = null;
 
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"});
@@ -78,6 +79,23 @@ document.addEventListener("turbo:load", () => {
   }
 });
 
-document.addEventListener("turbo:before-render", (event) => {
+document.addEventListener("turbo:before-render", async (event) => {
+  event.preventDefault();
   event.detail.newBody.querySelector(".header")?.classList.remove("animate__animated", "animate__fadeInDown");
+  event.detail.newBody.querySelector(".wrapper")?.classList.add("animate__faster");
+
+  const currentTime = new Date().getTime();
+  const timeSinceClick = currentTime - clickTime;
+  const timeout = Math.max(0, 250 - timeSinceClick);
+  await new Promise(resolve => setTimeout(resolve, timeout));
+
+  event.detail.resume();
+});
+
+document.addEventListener("turbo:click", (event) => {
+  document.querySelector(".wrapper")?.classList.remove("animate__fadeInUp");
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  document.querySelector(".wrapper")?.classList.add("animate__fadeOutDown", "animate__faster");
+
+  clickTime = new Date().getTime();
 });
