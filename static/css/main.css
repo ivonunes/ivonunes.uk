@@ -447,6 +447,21 @@ main {
   margin-bottom: 1.75rem;
 }
 
+@media (max-width: 500px) {
+  .nav-item {
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
+  }
+}
+
+.nav-item:first-child {
+  margin-left: 0;
+}
+
+.nav-item:last-child {
+  margin-right: 0;
+}
+
 .nav-item i {
   margin-right: 2px;
 }
