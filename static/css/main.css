@@ -643,6 +643,20 @@ article ol li {
   margin-top: -2px;
 }
 
+.apps .microblog_user img {
+  margin: 0 8px 0 0;
+}
+
+.apps .microblog_user a {
+  display: flex;
+  align-items: center;
+}
+
+.microblog_conversation .apps,
+.microblog_conversation .github-repos {
+  margin-top: 0;
+}
+
 .microblog_time a:hover,
 .microblog_time a:active {
   color: var(--link);

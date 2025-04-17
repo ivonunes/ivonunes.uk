@@ -10,8 +10,10 @@
             {{- else }}
             <li class="nav-item">
                 <a href="{{ .URL | relLangURL | safeURL }}">
+                    {{- if eq .Name "Apps" }}<i class="fa-brands fa-app-store-ios"></i> {{- end }}
                     {{- if eq .Name "Code" }}<i class="fa-brands fa-github"></i> {{- end }}
                     {{- if eq .Name "Photos" }}<i class="fa-solid fa-camera-retro"></i> {{- end }}
+                    {{- if eq .Name "Subscribe" }}<i class="fa-solid fa-square-rss"></i> {{- end }}
                     {{ .Name }}
                 </a>
             </li>
