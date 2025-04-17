@@ -20,7 +20,7 @@ async function fetchRepos() {
 }
 
 function displayRepos() {
-  const repoContainer = document.querySelector(".microblog_conversation");
+  const repoContainer = document.querySelector(".microblog_conversation.github-repos");
   if (!repoContainer) return;
 
   if (!gitHubRepos) {
