@@ -370,8 +370,16 @@ main {
   transition: 0.2s filter ease-in-out;
 }
 
-.site-title a:hover .u-photo {
+.site-title a:active .u-photo,
+.site-title a:focus .u-photo,
+.site-title a.active .u-photo {
   filter: brightness(1.1);
+}
+
+@media (hover: hover) {
+  .site-title a:hover .u-photo {
+    filter: brightness(1.1);
+  }
 }
 
 .site-title {
@@ -394,8 +402,9 @@ main {
   color: #fff;
 }
 
-.site-title a:hover,
-.site-title a:active {
+.site-title a:active,
+.site-title a:focus,
+.site-title a:hover {
   color: #fff;
   text-decoration: none;
 }
@@ -455,10 +464,23 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-.nav-item a:hover {
+.nav-item a:active,
+.nav-item a:focus,
+.nav-item a.active {
   background-color: #c8c8c833;
   color: #fff;
   text-decoration: none;
+}
+
+.nav-item a:hover {
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .nav-item a:hover {
+    background-color: #c8c8c833;
+    color: #fff;
+  }
 }
 
 article {

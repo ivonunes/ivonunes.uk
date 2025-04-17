@@ -1,6 +1,8 @@
 let gitHubRepos = null;
 let clickTime = null;
 
+document.addEventListener('touchstart', function () {}, false);
+
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString(undefined, {year: "numeric", month: "long", day: "numeric"});
 }
@@ -76,6 +78,16 @@ async function getComments(url) {
 document.addEventListener("turbo:load", () => {
   if (document.querySelector(".github-repos")) {
     getRepos();
+  }
+
+  for (const btn of document.querySelectorAll('.site-nav a')) {
+    btn.onclick = function() {
+        btn.classList.add('active');
+
+        setTimeout(function() {
+            btn.classList.remove('active');        
+        }, 500);
+    };
   }
 });
 
