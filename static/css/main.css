@@ -489,7 +489,7 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-@media only screen and (max-width: 380px) {
+@media only screen and (max-width: 365px) {
   .nav-menu {
     flex-direction: column;
   }
