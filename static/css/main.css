@@ -489,6 +489,26 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+@media only screen and (max-width: 380px) {
+  .nav-menu {
+    flex-direction: column;
+  }
+
+  .site-nav ul {
+    padding: 4px 4px 0;
+    border-radius: 16px;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .nav-item a:link, .nav-item a:visited {
+    margin-bottom: 4px;
+    width: 100%;
+    text-align: center;
+  }
+}
 
 .nav-item i {
   margin-right: 2px;
