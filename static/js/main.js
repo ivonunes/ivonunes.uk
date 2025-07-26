@@ -105,9 +105,9 @@ document.addEventListener("turbo:before-render", async (event) => {
 });
 
 document.addEventListener("turbo:click", (event) => {
-  document.querySelector(".wrapper")?.classList.remove("animate__fadeInUp");
+  document.querySelector(".wrapper")?.classList.remove("animate__slideInUp");
   window.scrollTo({top: 0, behavior: 'smooth'});
-  document.querySelector(".wrapper")?.classList.add("animate__fadeOutDown", "animate__faster");
+  document.querySelector(".wrapper")?.classList.add("animate__slideOutDown", "animate__faster");
 
   clickTime = new Date().getTime();
 });
