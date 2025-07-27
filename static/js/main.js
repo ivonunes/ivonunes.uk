@@ -1,5 +1,6 @@
 let gitHubRepos = null;
 let clickTime = null;
+let activeTarget = null;
 
 document.addEventListener('touchstart', function () {}, false);
 
@@ -80,15 +81,86 @@ document.addEventListener("turbo:load", () => {
     getRepos();
   }
 
-  for (const btn of document.querySelectorAll('.site-nav a')) {
-    btn.onclick = function() {
-        btn.classList.add('active');
+  const mainTabs = document.querySelector(".main-tabs");
+  const mainSliderCircle = document.querySelector(".main-slider-circle");
+  const navLinks = document.querySelectorAll(".nav-link");
 
-        setTimeout(function() {
-            btn.classList.remove('active');        
-        }, 500);
-    };
+  const handleActiveTab = (tabs, event, className) => {
+    tabs.forEach((tab) => {
+      tab.classList.remove(className);
+    });
+
+    if (!event.target.classList.contains(className)) {
+      event.target.classList.add(className);
+    }
+  };
+
+  if ((activeTarget && document.querySelector(".nav-link.active").href !== activeTarget.href) || (activeTarget === null && document.querySelector(".nav-link.active").dataset.translateValue != "0")) {
+    activeTarget = document.querySelector(".nav-link.active");
+    const event = { target: activeTarget };
+    const root = document.documentElement;
+    const targetTranslateValue = event.target.dataset.translateValue;
+
+    if (event.target.classList.contains("nav-link")) {
+      mainSliderCircle.classList.remove("animate-liquid");
+      void mainSliderCircle.offsetWidth;
+      mainSliderCircle.classList.add("animate-liquid");
+
+      root.style.setProperty("--translate-main-slider", targetTranslateValue);
+
+      handleActiveTab(navLinks, event, "active");
+    }
+  } else if (activeTarget === null) {
+    activeTarget = document.querySelector(".nav-link.active");
   }
+
+  mainTabs.addEventListener("mouseover", (event) => {
+    const root = document.documentElement;
+    const targetTranslateValue = event.target.dataset.translateValue;
+
+    if (event.target.classList.contains("nav-link")) {
+      mainSliderCircle.classList.remove("animate-liquid");
+      void mainSliderCircle.offsetWidth;
+      mainSliderCircle.classList.add("animate-liquid");
+
+      root.style.setProperty("--translate-main-slider", targetTranslateValue);
+
+      handleActiveTab(navLinks, event, "active");
+    }
+  });
+
+  mainTabs.addEventListener("mouseleave", function (e) {
+    event = { target: activeTarget };
+    const root = document.documentElement;
+    const targetTranslateValue = event.target.dataset.translateValue;
+
+    if (event.target.classList.contains("nav-link")) {
+      mainSliderCircle.classList.remove("animate-liquid");
+      void mainSliderCircle.offsetWidth;
+      mainSliderCircle.classList.add("animate-liquid");
+
+      root.style.setProperty("--translate-main-slider", targetTranslateValue);
+
+      handleActiveTab(navLinks, event, "active");
+    }
+  });
+
+  mainTabs.addEventListener("click", function (event) {
+    activeTarget = event.target;
+
+    const root = document.documentElement;
+    const targetTranslateValue = event.target.dataset.translateValue;
+
+    if (event.target.classList.contains("nav-link")) {
+      mainSliderCircle.classList.remove("animate-liquid");
+      void mainSliderCircle.offsetWidth;
+      mainSliderCircle.classList.add("animate-liquid");
+
+      root.style.setProperty("--translate-main-slider", targetTranslateValue);
+
+      handleActiveTab(navLinks, event, "active");
+    }
+  });
 });
 
 document.addEventListener("turbo:before-render", async (event) => {
