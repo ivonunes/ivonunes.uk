@@ -1,6 +1,7 @@
 let gitHubRepos = null;
 let clickTime = null;
 let activeTarget = null;
+let lastHover = null;
 
 document.addEventListener('touchstart', function () {}, false);
 
@@ -86,6 +87,8 @@ document.addEventListener("turbo:load", () => {
   const navLinks = document.querySelectorAll(".nav-link");
 
   const handleActiveTab = (tabs, event, className) => {
+    lastHover = event.target.href;
+
     tabs.forEach((tab) => {
       tab.classList.remove(className);
     });
@@ -112,13 +115,14 @@ document.addEventListener("turbo:load", () => {
     }
   } else if (activeTarget === null) {
     activeTarget = document.querySelector(".nav-link.active");
+    lastHover = activeTarget.href;
   }
 
   mainTabs.addEventListener("mouseover", (event) => {
     const root = document.documentElement;
     const targetTranslateValue = event.target.dataset.translateValue;
 
-    if (event.target.classList.contains("nav-link")) {
+    if (event.target.classList.contains("nav-link") && event.target.href !== lastHover) {
       mainSliderCircle.classList.remove("animate-liquid");
       void mainSliderCircle.offsetWidth;
       mainSliderCircle.classList.add("animate-liquid");
@@ -134,7 +138,7 @@ document.addEventListener("turbo:load", () => {
     const root = document.documentElement;
     const targetTranslateValue = event.target.dataset.translateValue;
 
-    if (event.target.classList.contains("nav-link")) {
+    if (event.target.classList.contains("nav-link") && event.target.href !== lastHover) {
       mainSliderCircle.classList.remove("animate-liquid");
       void mainSliderCircle.offsetWidth;
       mainSliderCircle.classList.add("animate-liquid");
