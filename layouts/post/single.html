@@ -39,7 +39,7 @@
     {{- if .Site.Params.include_conversation }}
         <div class="microblog_conversation_wrapper"></div>
         <script type="text/javascript">
-            getComments("{{ .Permalink }}");
+            MicroblogComments.get("{{ .Permalink }}");
         </script>
     {{- end }}
     {{- if or (.NextInSection) (.PrevInSection) }}

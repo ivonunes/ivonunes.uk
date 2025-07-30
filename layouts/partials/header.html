@@ -4,48 +4,59 @@
         <h1 class="site-title"><a href="/"><img id="avatar" class="u-photo" src="{{ if $avatar }}{{ $avatar }}{{ else }}{{ .Site.Author.avatar }}{{ end }}" alt="Profile picture" width="36" height="36" />{{ .Site.Title }}</a></h1>
         <p class="p-note">Software engineer. Guitar addict.<br>Camera enthusiast. Gaming aficionado.</p>
 
-        {{ $active := "home" }}
-        {{ if hasPrefix .RelPermalink "/code" }}
-        {{ $active = "code" }}
-        {{ end }}
-        {{ if hasPrefix .RelPermalink "/photos" }}
-        {{ $active = "photos" }}
-        {{ end }}
-        {{ if .Params.photos }}
-        {{ $active = "photos" }}
-        {{ end }}
-        {{ if hasPrefix .RelPermalink "/subscribe" }}
-        {{ $active = "subscribe" }}
-        {{ end }}
+        {{- define "getMenuIcon" -}}
+            {{- $name := lower .Name -}}
+            {{- if eq $name "home" -}}fa-solid fa-house
+            {{- else if eq $name "code" -}}fa-brands fa-github
+            {{- else if eq $name "photos" -}}fa-solid fa-camera-retro
+            {{- else if eq $name "subscribe" -}}fa-solid fa-square-rss
+            {{- else if eq $name "apps" -}}fa-brands fa-app-store-ios
+            {{- else -}}fa-solid fa-link
+            {{- end -}}
+        {{- end -}}
 
         <nav class="site-nav-menu">
             <div class="main-tabs-container">
                 <div class="main-tabs-wrapper">
                     <ul class="main-tabs">
+                        {{- $anyMenuActive := false -}}
+                        {{- range .Site.Menus.main -}}
+                            {{- $url := .URL | relLangURL -}}
+                            {{- if ne $url "/" -}}
+                                {{- if hasPrefix $.RelPermalink $url -}}{{ $anyMenuActive = true }}{{ end -}}
+                            {{- end -}}
+                            {{- if and (eq (lower .Name) "photos") $.Params.photos -}}{{ $anyMenuActive = true }}{{ end -}}
+                        {{- end -}}
+                        
                         <li>
-                            <a href="/" class="nav-link{{ if eq $active "home" }} active{{ end }}" data-translate-value="0">
+                            <a href="/" class="nav-link{{ if not $anyMenuActive }} active{{ end }}" data-translate-value="0">
                                 <i class="fa-solid fa-house"></i>
                                 Home
                             </a>
                         </li>
+                        {{- range $index, $item := .Site.Menus.main -}}
+                        {{- $url := .URL | relLangURL -}}
+                        {{- $isActive := false -}}
+                        {{- if eq $url "/" -}}
+                            {{- if eq $.RelPermalink "/" -}}{{ $isActive = true }}{{ end -}}
+                        {{- else -}}
+                            {{- if hasPrefix $.RelPermalink $url -}}{{ $isActive = true }}{{ end -}}
+                        {{- end -}}
+                        {{- if and (eq (lower .Name) "photos") $.Params.photos -}}{{ $isActive = true }}{{ end -}}
                         <li>
-                            <a href="/code" class="nav-link{{ if eq $active "code" }} active{{ end }}" data-translate-value="100%">
-                                <i class="fa-brands fa-github"></i>
-                                Code
+                            {{- if .Page.Params.redirect_url -}}
+                            <a href="{{ .Page.Params.redirect_url }}" target="_blank" class="nav-link" data-translate-value="{{ mul (add $index 1) 100 }}%">
+                                <i class="{{ template "getMenuIcon" . }}"></i>
+                                {{ .Name }}
                             </a>
-                        </li>
-                        <li>
-                            <a href="/photos" class="nav-link{{ if eq $active "photos" }} active{{ end }}" data-translate-value="200%">
-                                <i class="fa-solid fa-camera-retro"></i>
-                                Photos
+                            {{- else -}}
+                            <a href="{{ .URL | relLangURL | safeURL }}" class="nav-link{{ if $isActive }} active{{ end }}" data-translate-value="{{ mul (add $index 1) 100 }}%">
+                                <i class="{{ template "getMenuIcon" . }}"></i>
+                                {{ .Name }}
                             </a>
+                            {{- end -}}
                         </li>
-                        <li>
-                            <a href="/subscribe" class="nav-link{{ if eq $active "subscribe" }} active{{ end }}" data-translate-value="300%">
-                                <i class="fa-solid fa-square-rss"></i>
-                                Subscribe
-                            </a>
-                        </li>
+                        {{- end }}
                     </ul>
                     <div class="main-slider" aria-hidden="true">
                         <div class="main-slider-circle">&nbsp;</div>
