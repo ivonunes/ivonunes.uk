@@ -70,6 +70,7 @@ h5,
 h6,
 b,
 strong,
+dt,
 th,
 td {
   font-weight: var(--font-weight-bold);
@@ -213,9 +214,23 @@ sup {
 }
 
 figure {
-  font-size: 1.4rem;
+  padding: 0;
+  margin: 0;
+}
+
+figcaption {
+  background: var(--accent-1);
+  border-radius: 0.6rem;
   color: var(--accent-3);
+  display: block;
+  font-size: 1.4rem;
+  margin: -2rem 0 2rem;
+  padding: .5rem;
   text-align: center;
+}
+
+figure img + img {
+  margin-top: -2rem;
 }
 
 hr {
@@ -385,6 +400,14 @@ main {
   100% {
       background-position: 0% 50%;
   }
+}
+
+@keyframes footerheartbeat {
+  0% { transform:scale(1); }
+  2% { transform:scale(1.1); }
+  4% { transform:scale(1); }
+  6% { transform:scale(1.1); }
+  8% { transform:scale(1); }
 }
 
 .u-photo {
@@ -569,6 +592,7 @@ single article {
 
 .page-title,
 .post-title {
+  font-size: 2.4rem;
   margin-top: 1rem;
   margin-bottom: 3rem;
 }
@@ -594,6 +618,43 @@ single article {
 .post-date {
   color: var(--accent-3);
   font-size: 1.6rem;
+}
+
+article a:link, article a:visited,
+.page-nav a:link, .page-nav a:visited{
+  display: inline-block;
+  position: relative;
+}
+
+article a::after,
+.page-nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--link);
+  transition: width 0.3s ease, color 0.3s ease;
+}
+
+article a:hover ,
+.page-nav a:hover {
+  text-decoration: none;
+}
+
+article a:hover::after,
+.page-nav a:hover::after{
+  width: 100%;
+  background: var(--link-hover);
+}
+
+.post-title a::after {
+  background: var(--text);
+}
+
+.post-title a:hover::after {
+  background: var(--link);
 }
 
 article img,
@@ -724,8 +785,8 @@ article ol li {
 
 .microblog_time a:hover,
 .microblog_time a:active {
-  color: var(--link);
-  text-decoration: underline;
+  color: var(--accent-3);
+  text-decoration: none;
 }
 
 .microblog_time a,
@@ -733,6 +794,14 @@ article ol li {
   color: var(--accent-3);
   font-size: 1.6rem;
   text-decoration: none;
+}
+
+.microblog_time a::after {
+  background: var(--accent-3);
+}
+
+.microblog_time a:hover::after {
+  background: var(--accent-3);
 }
 
 .reply-buttons {
@@ -820,12 +889,12 @@ main.archive .entry p {
   display: inline;
 }
 
-.main-nav {
+.page-nav {
   margin: 0;
   padding: 1rem 0 2rem 0;
 }
 
-.main-nav ul {
+.page-nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -834,7 +903,7 @@ main.archive .entry p {
   align-items: center;
 }
 
-.main-nav li {
+.page-nav li {
   margin: 0;
   padding: 0;
 }
@@ -854,6 +923,8 @@ footer p {
 
 footer .red {
   color: #ff0000;
+  animation: footerheartbeat 10s ease infinite 0s;
+  display: inline-block;
 }
 
 .credits {

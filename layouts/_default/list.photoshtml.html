@@ -1,20 +1,20 @@
 {{ define "main" }}
 <main class="photos">
-	<article>
-		<ul class="grid">
-		{{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
-		{{- $len := (len $list) -}}
-		{{ range $index, $value := $list }}
-			<li>
-				<a href="{{ .Permalink }}">
-					{{ range first 1 .Params.photos }}
-						<img src="{{ . }}" loading="lazy" />
-					{{ end }}
-				</a>
-			</li>
-		{{- end -}}
-		</ul>
-	</article>
+	<h1 class="page-title">Photos</h1>
+
+	<ul class="grid">
+	{{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
+	{{- $len := (len $list) -}}
+	{{ range $index, $value := $list }}
+		<li>
+			<a href="{{ .Permalink }}">
+				{{ range first 1 .Params.photos }}
+					<img src="{{ . }}" loading="lazy" />
+				{{ end }}
+			</a>
+		</li>
+	{{- end -}}
+	</ul>
 </main>
 <script>
 	(function() {
