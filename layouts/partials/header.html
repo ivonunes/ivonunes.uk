@@ -8,7 +8,7 @@
 
         {{- define "getMenuIcon" -}}
             {{- $name := lower .Name -}}
-            {{- if eq $name "home" -}}fa-solid fa-house
+            {{- if eq $name "blog" -}}fa-solid fa-newspaper
             {{- else if eq $name "code" -}}fa-brands fa-github
             {{- else if eq $name "photos" -}}fa-solid fa-camera-retro
             {{- else if eq $name "subscribe" -}}fa-solid fa-square-rss
@@ -32,8 +32,8 @@
                         
                         <li>
                             <a href="/" class="nav-link{{ if not $anyMenuActive }} active{{ end }}" data-translate-value="0">
-                                <i class="fa-solid fa-house"></i>
-                                Home
+                                <i class="fa-solid fa-newspaper"></i>
+                                Blog
                             </a>
                         </li>
                         {{- range $index, $item := .Site.Menus.main -}}

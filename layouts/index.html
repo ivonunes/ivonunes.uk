@@ -1,6 +1,6 @@
 {{ define "main" }}
 <main>
-    {{- $paginator := .Paginate (where .Site.Pages.ByDate.Reverse "Type" "post") (index .Site.Params "archive-paginate" | default 20) }}
+    {{- $paginator := .Paginate (where (where .Site.Pages.ByDate.Reverse "Type" "post") ".Params.photos" "=" nil) (index .Site.Params "archive-paginate" | default 20) }}
     {{- range $paginator.Pages  }}
     <article class="h-entry">
     {{- if .Title }}
