@@ -1,70 +1,70 @@
 <header class="header animate__animated animate__fadeInDown">
-    <nav class="site-nav">
-        <div class="h-card">
-            {{- $avatar := .Site.Params.custom_avatar }}
-            <h1 class="site-title"><a href="https://ivonunes.uk/" class="u-url"><img id="avatar" class="u-photo" src="{{ if $avatar }}{{ $avatar }}{{ else }}{{ .Site.Author.avatar }}{{ end }}" alt="Profile picture" width="36" height="36" /><span class="p-name">{{ .Site.Title }}</span></a></h1>
-            <p class="p-note">Software engineer. Guitar addict.<br>Camera enthusiast. Gaming aficionado.</p>
-        </div>
+  <nav class="site-nav">
+    <div class="h-card">
+      {{- $avatar := .Site.Params.custom_avatar }}
+      <h1 class="site-title"><a href="https://ivonunes.uk/" class="u-url"><img id="avatar" class="u-photo" src="{{ if $avatar }}{{ $avatar }}{{ else }}{{ .Site.Author.avatar }}{{ end }}" alt="Profile picture" width="36" height="36" /><span class="p-name">{{ .Site.Title }}</span></a></h1>
+      <p class="p-note">Software engineer. Guitar addict.<br>Camera enthusiast. Gaming aficionado.</p>
+    </div>
 
-        {{- define "getMenuIcon" -}}
-            {{- $name := lower .Name -}}
-            {{- if eq $name "blog" -}}fa-solid fa-newspaper
-            {{- else if eq $name "code" -}}fa-brands fa-github
-            {{- else if eq $name "photos" -}}fa-solid fa-camera-retro
-            {{- else if eq $name "subscribe" -}}fa-solid fa-square-rss
-            {{- else if eq $name "apps" -}}fa-brands fa-app-store-ios
-            {{- else -}}fa-solid fa-link
+    {{- define "getMenuIcon" -}}
+      {{- $name := lower .Name -}}
+      {{- if eq $name "blog" -}}fa-solid fa-newspaper
+      {{- else if eq $name "code" -}}fa-brands fa-github
+      {{- else if eq $name "photos" -}}fa-solid fa-camera-retro
+      {{- else if eq $name "subscribe" -}}fa-solid fa-square-rss
+      {{- else if eq $name "apps" -}}fa-brands fa-app-store-ios
+      {{- else -}}fa-solid fa-link
+      {{- end -}}
+    {{- end -}}
+
+    <nav class="site-nav-menu">
+      <div class="main-tabs-container">
+        <div class="main-tabs-wrapper">
+          <ul class="main-tabs">
+            {{- $anyMenuActive := false -}}
+            {{- range .Site.Menus.main -}}
+              {{- $url := .URL | relLangURL -}}
+              {{- if ne $url "/" -}}
+                {{- if hasPrefix $.RelPermalink $url -}}{{ $anyMenuActive = true }}{{ end -}}
+              {{- end -}}
+              {{- if and (eq (lower .Name) "photos") $.Params.photos -}}{{ $anyMenuActive = true }}{{ end -}}
             {{- end -}}
-        {{- end -}}
 
-        <nav class="site-nav-menu">
-            <div class="main-tabs-container">
-                <div class="main-tabs-wrapper">
-                    <ul class="main-tabs">
-                        {{- $anyMenuActive := false -}}
-                        {{- range .Site.Menus.main -}}
-                            {{- $url := .URL | relLangURL -}}
-                            {{- if ne $url "/" -}}
-                                {{- if hasPrefix $.RelPermalink $url -}}{{ $anyMenuActive = true }}{{ end -}}
-                            {{- end -}}
-                            {{- if and (eq (lower .Name) "photos") $.Params.photos -}}{{ $anyMenuActive = true }}{{ end -}}
-                        {{- end -}}
-                        
-                        <li>
-                            <a href="/" class="nav-link{{ if not $anyMenuActive }} active{{ end }}" data-translate-value="0">
-                                <i class="fa-solid fa-newspaper"></i>
-                                Blog
-                            </a>
-                        </li>
-                        {{- range $index, $item := .Site.Menus.main -}}
-                        {{- $url := .URL | relLangURL -}}
-                        {{- $isActive := false -}}
-                        {{- if eq $url "/" -}}
-                            {{- if eq $.RelPermalink "/" -}}{{ $isActive = true }}{{ end -}}
-                        {{- else -}}
-                            {{- if hasPrefix $.RelPermalink $url -}}{{ $isActive = true }}{{ end -}}
-                        {{- end -}}
-                        {{- if and (eq (lower .Name) "photos") $.Params.photos -}}{{ $isActive = true }}{{ end -}}
-                        <li>
-                            {{- if .Page.Params.redirect_url -}}
-                            <a href="{{ .Page.Params.redirect_url }}" target="_blank" class="nav-link" data-translate-value="{{ mul (add $index 1) 100 }}%">
-                                <i class="{{ template "getMenuIcon" . }}"></i>
-                                {{ .Name }}
-                            </a>
-                            {{- else -}}
-                            <a href="{{ .URL | relLangURL | safeURL }}" class="nav-link{{ if $isActive }} active{{ end }}" data-translate-value="{{ mul (add $index 1) 100 }}%">
-                                <i class="{{ template "getMenuIcon" . }}"></i>
-                                {{ .Name }}
-                            </a>
-                            {{- end -}}
-                        </li>
-                        {{- end }}
-                    </ul>
-                    <div class="main-slider" aria-hidden="true">
-                        <div class="main-slider-circle">&nbsp;</div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+            <li>
+              <a href="/" class="nav-link{{ if not $anyMenuActive }} active{{ end }}" data-translate-value="0">
+                <i class="fa-solid fa-newspaper"></i>
+                Blog
+              </a>
+            </li>
+            {{- range $index, $item := .Site.Menus.main -}}
+            {{- $url := .URL | relLangURL -}}
+            {{- $isActive := false -}}
+            {{- if eq $url "/" -}}
+              {{- if eq $.RelPermalink "/" -}}{{ $isActive = true }}{{ end -}}
+            {{- else -}}
+              {{- if hasPrefix $.RelPermalink $url -}}{{ $isActive = true }}{{ end -}}
+            {{- end -}}
+            {{- if and (eq (lower .Name) "photos") $.Params.photos -}}{{ $isActive = true }}{{ end -}}
+            <li>
+              {{- if .Page.Params.redirect_url -}}
+              <a href="{{ .Page.Params.redirect_url }}" target="_blank" class="nav-link" data-translate-value="{{ mul (add $index 1) 100 }}%">
+                <i class="{{ template "getMenuIcon" . }}"></i>
+                {{ .Name }}
+              </a>
+              {{- else -}}
+              <a href="{{ .URL | relLangURL | safeURL }}" class="nav-link{{ if $isActive }} active{{ end }}" data-translate-value="{{ mul (add $index 1) 100 }}%">
+                <i class="{{ template "getMenuIcon" . }}"></i>
+                {{ .Name }}
+              </a>
+              {{- end -}}
+            </li>
+            {{- end }}
+          </ul>
+          <div class="main-slider" aria-hidden="true">
+            <div class="main-slider-circle">&nbsp;</div>
+          </div>
+        </div>
+      </div>
     </nav>
+  </nav>
 </header>
