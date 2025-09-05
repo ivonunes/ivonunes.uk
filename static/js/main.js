@@ -94,7 +94,7 @@ const MicroblogComments = {
         .replaceAll("document.write", "window.writeToBuffer")
         .replaceAll("history.pushState", "window.pushState")
 
-      (new Function(result))()
+      ;(new Function(result))()
 
       window.writeToBuffer = undefined
       window.pushState = undefined

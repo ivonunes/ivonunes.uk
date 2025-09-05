@@ -1,46 +1,46 @@
 {{ define "main" }}
 <main>
-    {{- $paginator := .Paginate (where (where .Site.Pages.ByDate.Reverse "Type" "post") ".Params.photos" "=" nil) (index .Site.Params "archive-paginate" | default 20) }}
-    {{- range $paginator.Pages  }}
-    <article class="h-entry">
-    {{- if .Title }}
-        <h2 class="post-title"><a href="{{ .Permalink }}" class="u-url">{{ .Title | safeHTML }}</a></h2>
-        <p class="post-date">
-            <time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">
-                {{ .Date.Format "Monday, January 2, 2006" }}
-            </time>
-        </p>
-        <p>{{ .Summary | safeHTML }}</p>
-        {{- if .Truncated }}
-        <p><a href="{{ .Permalink }}" class="u-url">Continue reading →</a></p>
-        {{- end }}
-    {{- else if in .RawContent "<!--more-->"}}
-        <p class="post-date btm-margin">
-            <time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">
-            <a href="{{ .Permalink }}" class="u-url">{{ .Date.Format "Monday, January 2, 2006" }} →</a>
-            </time>
-        </p>
-        <p>{{ .Summary | safeHTML }}</p>
-        {{- if .Truncated }}
-        <p><a href="{{ .Permalink }}" class="u-url">Continue reading →</a></p>
-        {{- end }}
-    {{- else }}
-        <p class="post-date btm-margin">
-            <time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">
-            <a href="{{ .Permalink }}" class="u-url">{{ .Date.Format "Monday, January 2, 2006" }} →</a>
-            </time>
-        </p>
-        {{ .Content }}
+  {{- $paginator := .Paginate (where (where .Site.Pages.ByDate.Reverse "Type" "post") ".Params.photos" "=" nil) (index .Site.Params "archive-paginate" | default 20) }}
+  {{- range $paginator.Pages  }}
+  <article class="h-entry">
+  {{- if .Title }}
+    <h2 class="post-title"><a href="{{ .Permalink }}" class="u-url">{{ .Title | safeHTML }}</a></h2>
+    <p class="post-date">
+      <time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">
+        {{ .Date.Format "Monday, January 2, 2006" }}
+      </time>
+    </p>
+    <p>{{ .Summary | safeHTML }}</p>
+    {{- if .Truncated }}
+    <p><a href="{{ .Permalink }}" class="u-url">Continue reading →</a></p>
     {{- end }}
-    </article>
+  {{- else if in .RawContent "<!--more-->"}}
+    <p class="post-date btm-margin">
+      <time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">
+      <a href="{{ .Permalink }}" class="u-url">{{ .Date.Format "Monday, January 2, 2006" }} →</a>
+      </time>
+    </p>
+    <p>{{ .Summary | safeHTML }}</p>
+    {{- if .Truncated }}
+    <p><a href="{{ .Permalink }}" class="u-url">Continue reading →</a></p>
     {{- end }}
-    {{- if or ($paginator.HasNext) ($paginator.HasPrev) }}
-    <nav class="page-nav">
-        <ul>
-            <li>{{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}">← Older</a>{{ end }}</li>
-            <li>{{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}">Newer →</a>{{ end }}</li>
-        </ul>
-    </nav>
-    {{- end }}
+  {{- else }}
+    <p class="post-date btm-margin">
+      <time class="dt-published" datetime="{{ .Date.Format "2006-01-02 15:04:05 -0700" }}">
+      <a href="{{ .Permalink }}" class="u-url">{{ .Date.Format "Monday, January 2, 2006" }} →</a>
+      </time>
+    </p>
+    {{ .Content }}
+  {{- end }}
+  </article>
+  {{- end }}
+  {{- if or ($paginator.HasNext) ($paginator.HasPrev) }}
+  <nav class="page-nav">
+    <ul>
+      <li>{{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}">← Older</a>{{ end }}</li>
+      <li>{{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}">Newer →</a>{{ end }}</li>
+    </ul>
+  </nav>
+  {{- end }}
 </main>
 {{ end }}
