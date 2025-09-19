@@ -161,6 +161,22 @@ a:visited {
   transition: 0.1s color ease-in-out;
 }
 
+a:focus {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.site-title a:focus {
+  outline: 2px solid #fff;
+}
+
+.site-nav-menu a:focus {
+  outline: 2px solid #fff;
+  outline-offset: 0;
+  border-radius: 64px;
+}
+
 a:hover,
 a:active {
   text-decoration: underline;
@@ -1086,9 +1102,8 @@ ul.grid {
 ul.grid li {
     margin: 0;
     padding: 0;
-    border-radius: 1rem;
     background: var(--accent-1);
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     min-height: 160px;
 }
@@ -1104,6 +1119,18 @@ ul.grid li::before {
 
 ul.grid li.loaded::before {
   display: none;
+}
+
+ul.grid a {
+  display: block;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+ul.grid a:focus {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 ul.grid img {
