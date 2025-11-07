@@ -1,0 +1,55 @@
+---
+layout: layout
+pageable: true
+---
+<main>
+  <% articles = defined?(page_articles) ? page_articles : blog(:blog).articles.sort_by(&:date).reverse %>
+  <% articles.each do |article| %>
+    <article class="h-entry">
+      <% title = article.data.title %>
+      <% article_date = article.date %>
+      <% summary_source = article.data.summary unless blank_value?(article.data.summary) %>
+      <% summary_source ||= article.summary(250) %>
+      <% summary_plain = normalize_whitespace(summary_source) %>
+      <% content_plain = normalize_whitespace(article.body) %>
+
+      <% if title %>
+        <h2 class="post-title"><a href="<%= article.url %>" class="u-url"><%= title %></a></h2>
+        <p class="post-date">
+          <time class="dt-published" datetime="<%= article_date.iso8601 %>">
+            <%= article_date.strftime("%A, %B %-d, %Y") %>
+          </time>
+        </p>
+        <div class="excerpt">
+          <p><%= truncate_words(summary_plain, 70) %></p>
+        </div>
+        <% if summary_plain != content_plain %>
+          <p><a href="<%= article.url %>" class="u-url">Continue reading →</a></p>
+        <% end %>
+      <% else %>
+        <p class="post-date btm-margin">
+          <time class="dt-published" datetime="<%= article_date.iso8601 %>">
+            <a href="<%= article.url %>" class="u-url"><%= article_date.strftime("%A, %B %-d, %Y") %> →</a>
+          </time>
+        </p>
+        <%= article.body %>
+      <% end %>
+    </article>
+  <% end %>
+  <% if defined?(paginate) && paginate && (prev_page || next_page) %>
+    <nav class="page-nav">
+      <ul>
+        <li>
+          <% if next_page %>
+            <a href="<%= next_page.url %>">← Older</a>
+          <% end %>
+        </li>
+        <li>
+          <% if prev_page %>
+            <a href="<%= prev_page.url %>">Newer →</a>
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+  <% end %>
+</main>

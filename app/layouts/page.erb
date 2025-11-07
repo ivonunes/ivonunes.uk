@@ -1,0 +1,10 @@
+<% wrap_layout :layout do %>
+  <main>
+    <article>
+      <% if current_page.data.title %>
+        <h1 class="page-title"><%= current_page.data.title %></h1>
+      <% end %>
+      <%= yield %>
+    </article>
+  </main>
+<% end %>

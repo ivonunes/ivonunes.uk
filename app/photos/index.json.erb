@@ -1,0 +1,30 @@
+---
+layout: false
+permalink: /photos/index.json
+---
+<%
+  photo_posts = blog(:photos).articles.sort_by(&:date).reverse
+  items = photo_posts.map do |post|
+    entry = {
+      id: canonical_url(post),
+      title: post.data.title.to_s,
+      content_html: post.body,
+      date_published: post.date.iso8601,
+      url: canonical_url(post)
+    }
+
+    photo_url = post.data.photo
+    entry[:image] = photo_url if photo_url
+    entry
+  end
+
+  feed = {
+    version: "https://jsonfeed.org/version/1",
+    title: site_data.title,
+    icon: site_data.author&.avatar,
+    home_page_url: absolute_url('/'),
+    feed_url: absolute_url('photos/index.json'),
+    items: items
+  }
+%>
+<%= JSON.pretty_generate(feed) %>

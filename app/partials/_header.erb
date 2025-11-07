@@ -1,0 +1,64 @@
+<header class="header animate__animated animate__fadeInDown">
+  <nav class="site-nav">
+    <div class="h-card">
+      <% avatar = site_data.author&.avatar %>
+      <h1 class="site-title">
+        <a href="<%= url_for('/') %>" class="u-url">
+          <img id="avatar" class="u-photo" src="<%= avatar %>" alt="Profile picture" width="36" height="36" />
+          <span class="p-name"><%= site_data.title %></span>
+        </a>
+      </h1>
+      <% if site_data.author&.bio %>
+        <p class="p-note"><%= site_data.author.bio %></p>
+      <% end %>
+    </div>
+
+    <% nav_items = nav_resources %>
+    <% any_menu_active = nav_items.any? { |item| nav_active?(item) } %>
+
+    <nav class="site-nav-menu">
+      <div class="main-tabs-container">
+        <div class="main-tabs-wrapper" data-controller="navigation">
+          <ul class="main-tabs">
+            <li>
+              <a href="<%= url_for('/') %>" class="nav-link<%= ' active' unless any_menu_active %>" data-translate-value="0" data-navigation-target="link">
+                <i class="fa-solid fa-newspaper"></i>
+                Blog
+              </a>
+            </li>
+            <% nav_items.each_with_index do |item, index| %>
+              <% item_url = item.url %>
+              <% item_name = item.data.title || item.data.name || '' %>
+              <% item_name_lower = item_name.downcase %>
+              <% translate_value = resource_translate_value(index + 1) %>
+              <% icon_class = case item_name_lower
+                             when 'blog' then 'fa-solid fa-newspaper'
+                             when 'code' then 'fa-brands fa-github'
+                             when 'photos' then 'fa-solid fa-camera-retro'
+                             when 'subscribe' then 'fa-solid fa-square-rss'
+                             when 'apps' then 'fa-brands fa-app-store-ios'
+                             else 'fa-solid fa-link'
+                             end %>
+              <li>
+                <% if item.data.redirect_url %>
+                  <a href="<%= item.data.redirect_url %>" target="_blank" class="nav-link" data-translate-value="<%= translate_value %>" data-navigation-target="link">
+                    <i class="<%= icon_class %>"></i>
+                    <%= item_name %>
+                  </a>
+                <% else %>
+                  <a href="<%= item_url %>" class="nav-link<%= ' active' if nav_active?(item) %>" data-translate-value="<%= translate_value %>" data-navigation-target="link">
+                    <i class="<%= icon_class %>"></i>
+                    <%= item_name %>
+                  </a>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+          <div class="main-slider" aria-hidden="true">
+            <div class="main-slider-circle" data-navigation-target="sliderCircle">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </nav>
+</header>

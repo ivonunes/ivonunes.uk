@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+app_root = File.expand_path("..", __dir__)
+ENV["BUNDLE_GEMFILE"] ||= File.join(app_root, "Gemfile")
+
+Dir.chdir(app_root) do
+  exec File.join(Gem.bindir, "middleman"), *ARGV
+end

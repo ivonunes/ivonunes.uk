@@ -1,0 +1,50 @@
+<% wrap_layout :layout do %>
+  <%
+    article = current_article || current_page
+    article_data = article.data
+    article_date = if article.respond_to?(:date) && article.date
+                     article.date
+                   elsif article_data.date
+                     Time.parse(article_data.date.to_s)
+                   else
+                     Time.now
+                   end
+    is_photo_post = photo_article?(article) || article_data.photo
+  %>
+  <main>
+    <article class="h-entry">
+      <% if article_data.title && !is_photo_post %>
+        <h1 class="post-title p-name"><%= article_data.title %></h1>
+        <p class="post-date">
+          <time class="dt-published" datetime="<%= article_date.iso8601 %>">
+            <%= article_date.strftime("%A, %B %-d, %Y") %>
+          </time>
+        </p>
+      <% else %>
+        <p class="post-date btm-margin">
+          <time class="dt-published" datetime="<%= article_date.iso8601 %>">
+            <%= article_date.strftime("%A, %B %-d, %Y") %>
+          </time>
+        </p>
+      <% end %>
+      <% if article_data.audio %>
+        <script type="text/javascript" src="https://micro.blog/narration.js?url=<%= article_data.audio %>"></script>
+      <% end %>
+      <div class="e-content">
+        <%= yield %>
+      </div>
+    </article>
+    <% if current_article %>
+      <% previous_article = current_article.article_previous %>
+      <% next_article = current_article.article_next %>
+      <% if previous_article || next_article %>
+        <nav class="page-nav">
+          <ul>
+            <li><% if previous_article %><a href="<%= previous_article.url %>">← Older</a><% end %></li>
+            <li><% if next_article %><a href="<%= next_article.url %>">Newer →</a><% end %></li>
+          </ul>
+        </nav>
+      <% end %>
+    <% end %>
+  </main>
+<% end %>

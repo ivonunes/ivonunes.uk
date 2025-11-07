@@ -1,7 +1,9 @@
+_site/
+.bundle/
+build/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+vendor/bundle/
 .DS_Store
-/node_modules
-/.idea
-/.vscode
-/resources
-/public
-/.hugo_build.lock
+.idea

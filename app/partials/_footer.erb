@@ -1,0 +1,23 @@
+<footer>
+  <div class="social">
+    <% [
+      [:rss, 'fa-solid fa-rss', "#{site_data.title} RSS Feed"],
+      [:bluesky, 'fa-brands fa-bluesky', "Ivo Nunes on Bluesky"],
+      [:mastodon, 'fa-brands fa-mastodon', "Ivo Nunes on Mastodon"],
+      [:flickr, 'fa-brands fa-flickr', "Ivo Nunes on Flickr"],
+      [:instagram, 'fa-brands fa-instagram', "Ivo Nunes on Instagram"],
+      [:linkedin, 'fa-brands fa-linkedin', "Ivo Nunes on LinkedIn"],
+      [:x, 'fa-brands fa-x-twitter', "Ivo Nunes on X"],
+      [:github, 'fa-brands fa-github', "Ivo Nunes on GitHub"],
+      [:email, 'fa-solid fa-envelope', "Email Ivo Nunes"]
+    ].each do |key, icon, label| %>
+      <% url = social_link_for(key) %>
+      <% next unless url %>
+      <% external = !(url.start_with?('mailto:') || url.start_with?('/')) %>
+      <a href="<%= url %>"<%= external ? ' target="_blank" rel="noopener"' : '' %> title="<%= label %>"><i class="<%= icon %>"></i></a>
+    <% end %>
+  </div>
+
+  <p>Made with <span class="red">♥</span> in the UK.</p>
+</footer>
+<%= partial "partials/scroll_to_top" %>

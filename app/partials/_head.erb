@@ -1,0 +1,31 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <title><%= full_title %></title>
+  <link rel="preload" href="/assets/fonts/GT-W-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/assets/fonts/GT-W-Regular-Oblique.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/assets/fonts/GT-W-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/assets/fonts/GT-W-Bold-Oblique.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <meta name="description" content="<%= page_description %>">
+  <% if current_page.url %>
+    <link rel="canonical" href="<%= canonical_url %>">
+  <% end %>
+  <link rel="stylesheet" href="<%= asset_path(:css, "fonts.css") %>">
+  <link rel="stylesheet" href="<%= asset_path(:css, "main.css") %>">
+  <% rss_link = social_link_for(:rss) || '/feed.xml' %>
+  <link rel="alternate" href="<%= rss_link.start_with?('http') ? rss_link : absolute_url(rss_link) %>" type="application/rss+xml" title="<%= site_data.title %>">
+  <link rel="alternate" href="<%= absolute_url('feed.json') %>" type="application/json" title="<%= site_data.title %>">
+  <link rel="shortcut icon" href="https://ivonunes.uk/assets/images/avatar.jpg" type="image/x-icon">
+  <% importmap_json = JSON.pretty_generate({ imports: import_map }) %>
+  <script type="importmap">
+<%= importmap_json %>
+  </script>
+  <script type="module" src="<%= asset_path(:js, "application.js") %>"></script>
+  <meta name="turbo-cache-control" content="no-cache">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#282c35" media="(prefers-color-scheme: dark)" />
+  <% if current_page.data.photo %>
+    <meta name="robots" content="noindex" />
+  <% end %>
+</head>

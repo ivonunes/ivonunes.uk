@@ -1,0 +1,21 @@
+---
+layout: false
+permalink: /sitemap.xml
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <%
+    posts = blog(:blog).articles
+    photo_posts = blog(:photos).articles
+    pages = nav_resources
+    items = (posts + photo_posts + pages).uniq
+  %>
+  <% items.each do |item| %>
+    <% raw_lastmod = item.data.lastmod || item.data.last_modified_at || (item.respond_to?(:date) && item.date) || Time.now %>
+    <% lastmod = raw_lastmod.is_a?(String) ? Time.parse(raw_lastmod) : raw_lastmod %>
+    <url>
+      <loc><%= canonical_url(item) %></loc>
+      <lastmod><%= lastmod.iso8601 %></lastmod>
+    </url>
+  <% end %>
+</urlset>

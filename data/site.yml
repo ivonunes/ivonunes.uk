@@ -1,0 +1,22 @@
+title: "Ivo Nunes"
+url: "https://ivonunes.uk"
+lang: en
+timezone: Europe/London
+
+author:
+  name: "Ivo Nunes"
+  email: "ivo@nunes.uk"
+  avatar: "https://ivonunes.uk/assets/images/avatar.jpg"
+  username: "ivonunes"
+  bio: "Software engineer. Guitar addict. <br />Camera enthusiast. Gaming aficionado."
+
+social:
+  rss: "/feed.xml"
+  bluesky: "https://bsky.app/profile/ivonunes.uk"
+  mastodon: "https://mastodon.social/@ivo_nunes"
+  flickr: "https://www.flickr.com/photos/ivonunes/"
+  instagram: "https://www.instagram.com/ivonunes/"
+  linkedin: "https://linkedin.com/in/ivonunes/"
+  x: "https://x.com/ivonunes"
+  github: "https://github.com/ivonunes"
+  email: "mailto:ivo@nunes.uk"

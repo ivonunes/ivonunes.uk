@@ -1,0 +1,112 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "fileutils"
+require "json"
+require "net/http"
+require "uri"
+
+module ImportmapCLI
+  ROOT = File.expand_path("..", __dir__)
+  IMPORTMAP_PATH = File.join(ROOT, "config", "importmap.rb")
+  VENDOR_DIR = File.join(ROOT, "app", "javascript", "vendor")
+
+  module_function
+
+  def run(argv)
+    command = argv.shift
+    die("Unknown command") unless command == "pin"
+
+    identifier = argv.shift
+    die("Specify a package to pin") unless identifier && !identifier.strip.empty?
+
+    package, requested_version = parse_identifier(identifier)
+    version = requested_version
+    version = nil if version&.strip&.empty?
+    version ||= fetch_latest_version(package)
+
+    vendor_filename = vendor_filename_for(package)
+    vendor_path = File.join(VENDOR_DIR, vendor_filename)
+
+    FileUtils.mkdir_p(VENDOR_DIR)
+    download_package(package, version, vendor_path)
+    update_importmap(package, "/javascript/vendor/#{vendor_filename}", version)
+
+    puts "Pinned #{package}@#{version} -> #{vendor_path}"
+  end
+
+  def die(message)
+    warn message
+    warn "Usage:\n  ./bin/importmap pin <package[@version]>"
+    exit 1
+  end
+
+  def parse_identifier(identifier)
+    if identifier.start_with?("@")
+      if identifier.count("@") > 1
+        index = identifier.rindex("@")
+        package = identifier[0...index]
+        version = identifier[(index + 1)..-1]
+        [package, version]
+      else
+        [identifier, nil]
+      end
+    else
+      identifier.split("@", 2)
+    end
+  end
+
+  def fetch_latest_version(package)
+    uri = URI("https://registry.npmjs.org/#{package}")
+    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.get(uri.request_uri) }
+    raise "Unable to fetch metadata (#{response.code})" unless response.is_a?(Net::HTTPSuccess)
+
+    data = JSON.parse(response.body)
+    data.dig("dist-tags", "latest") || raise("No latest version for #{package}")
+  end
+
+  def download_package(package, version, destination)
+    source = URI("https://cdn.jsdelivr.net/npm/#{package}@#{version}/+esm")
+    response = Net::HTTP.start(source.host, source.port, use_ssl: true) { |http| http.get(source.request_uri) }
+    raise "Unable to download package (#{response.code})" unless response.is_a?(Net::HTTPSuccess)
+
+    File.write(destination, response.body)
+  end
+
+  def update_importmap(identifier, path, version)
+    entries = read_importmap_entries
+    entries[identifier] = { to: path, version: version }
+    write_importmap(entries)
+  end
+
+  def read_importmap_entries
+    return {} unless File.exist?(IMPORTMAP_PATH)
+
+    entries = {}
+    File.readlines(IMPORTMAP_PATH).each do |line|
+      next unless line.strip.start_with?("pin ")
+      if line =~ /^pin\s+"([^"]+)",\s+to:\s+"([^"]+)"(?:\s+#\s*(.+))?$/
+        entries[$1] = { to: $2, version: $3 }
+      end
+    end
+    entries
+  end
+
+  def write_importmap(entries)
+    FileUtils.mkdir_p(File.dirname(IMPORTMAP_PATH))
+    File.open(IMPORTMAP_PATH, "w") do |file|
+      file.puts "# Pin npm packages by running ./bin/importmap pin <package[@version]>"
+      entries.sort.each do |name, data|
+        comment = data[:version] && !data[:version].empty? ? " # #{data[:version]}" : ""
+        file.puts %(pin "#{name}", to: "#{data[:to]}"#{comment})
+      end
+    end
+  end
+
+  def vendor_filename_for(package)
+    base = package.gsub(/[^a-zA-Z0-9]+/, '-').gsub(/^-|-$/, '')
+    "#{base}.js"
+  end
+end
+
+ImportmapCLI.run(ARGV)

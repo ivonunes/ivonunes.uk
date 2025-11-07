@@ -1,0 +1,25 @@
+---
+layout: false
+permalink: /photos/feed.xml
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title><%= "#{site_data.title} — Photos" %></title>
+    <link><%= absolute_url('/photos/') %></link>
+    <description/>
+    <language><%= site_data.lang %></language>
+    <% photo_posts = blog(:photos).articles.sort_by(&:date).reverse %>
+    <% photo_posts.each do |post| %>
+    <item>
+      <title><%= post.data.title %></title>
+      <% photo_url = post.data.photo %>
+      <% item_link = photo_url ? absolute_url(photo_url) : canonical_url(post) %>
+      <link><%= item_link %></link>
+      <pubDate><%= post.date.strftime('%a, %d %b %Y %H:%M:%S %z') %></pubDate>
+      <guid><%= canonical_url(post) %></guid>
+      <description><%= CGI.escapeHTML(normalize_whitespace(post.body)) %></description>
+    </item>
+    <% end %>
+  </channel>
+</rss>

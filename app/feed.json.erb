@@ -1,0 +1,28 @@
+---
+layout: false
+permalink: /feed.json
+---
+<%
+  posts = blog(:blog).articles.sort_by(&:date).reverse.first(25)
+  items = posts.map do |post|
+    entry = {
+      id: (post.data.guid || canonical_url(post)),
+      content_html: post.body,
+      date_published: post.date.iso8601,
+      url: canonical_url(post)
+    }
+
+    entry[:title] = post.data.title if present_value?(post.data.title)
+    entry
+  end
+
+  feed = {
+    version: "https://jsonfeed.org/version/1",
+    title: site_data.title,
+    icon: site_data.author&.avatar,
+    home_page_url: absolute_url('/'),
+    feed_url: absolute_url('feed.json'),
+    items: items
+  }
+%>
+<%= JSON.pretty_generate(feed) %>

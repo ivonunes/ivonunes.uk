@@ -1,0 +1,30 @@
+---
+layout: false
+permalink: /feed.xml
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title><%= site_data.title %></title>
+    <link><%= absolute_url('/') %></link>
+    <description></description>
+    <language><%= site_data.lang %></language>
+    <lastBuildDate><%= Time.now.strftime('%a, %d %b %Y %H:%M:%S %z') %></lastBuildDate>
+    <% posts = blog(:blog).articles.sort_by(&:date).reverse.first(25) %>
+    <% posts.each do |post| %>
+    <item>
+      <% if post.data.title %>
+      <title><%= CGI.escapeHTML(post.data.title) %></title>
+      <% end %>
+      <link><%= canonical_url(post) %></link>
+      <pubDate><%= post.date.strftime('%a, %d %b %Y %H:%M:%S %z') %></pubDate>
+      <% author_email = site_data.author&.email %>
+      <% if author_email %>
+      <author><%= CGI.escapeHTML(author_email) %><% if site_data.author&.name %> (<%= CGI.escapeHTML(site_data.author.name) %>)<% end %></author>
+      <% end %>
+      <guid><%= canonical_url(post) %></guid>
+      <description><%= CGI.escapeHTML(post.body) %></description>
+    </item>
+    <% end %>
+  </channel>
+</rss>
