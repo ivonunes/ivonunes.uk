@@ -17,13 +17,13 @@
         <h1 class="post-title p-name"><%= article_data.title %></h1>
         <p class="post-date">
           <time class="dt-published" datetime="<%= article_date.iso8601 %>">
-            <%= article_date.strftime("%A, %B %-d, %Y") %>
+            <%= article_date.strftime("%A, %-d %B %Y") %>
           </time>
         </p>
       <% else %>
         <p class="post-date btm-margin">
           <time class="dt-published" datetime="<%= article_date.iso8601 %>">
-            <%= article_date.strftime("%A, %B %-d, %Y") %>
+            <%= article_date.strftime("%A, %-d %B %Y") %>
           </time>
         </p>
       <% end %>
