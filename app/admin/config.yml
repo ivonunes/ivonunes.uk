@@ -16,15 +16,14 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown" }
-   - name: "photos"
-     label: "Photos"
-     folder: "app/posts/photos"
-     create: true
-     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-     fields:
-       - { label: "Layout", name: "layout", widget: "hidden", default: "post" }
-       - { label: "Title", name: "title", widget: "string" }
-       - { label: "Publish Date", name: "date", widget: "datetime" }
-       - { label: "Photo", name: "photo", widget: "image" }
-       - { label: "Body", name: "body", widget: "markdown" }
-
+  - name: "photos"
+    label: "Photos"
+    folder: "app/posts/photos"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "post" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Photo", name: "photo", widget: "image" }
+      - { label: "Body", name: "body", widget: "markdown" }
