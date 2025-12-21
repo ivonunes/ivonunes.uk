@@ -6,24 +6,14 @@ backend:
 media_folder: "app/assets/images"
 public_folder: "/assets/images"
 collections:
-  - name: "blog"
-    label: "Blog"
-    folder: "app/posts/blog"
+  - name: "posts"
+    label: "Posts"
+    folder: "app/posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Layout", name: "layout", widget: "hidden", default: "post" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Body", name: "body", widget: "markdown" }
-  - name: "photos"
-    label: "Photos"
-    folder: "app/posts/photos"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "Layout", name: "layout", widget: "hidden", default: "post" }
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Photo", name: "photo", widget: "image" }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
       - { label: "Body", name: "body", widget: "markdown" }

@@ -12,8 +12,9 @@ permalink: /feed.xml
     <lastBuildDate><%= Time.now.strftime('%a, %d %b %Y %H:%M:%S %z') %></lastBuildDate>
     <% posts = blog(:blog).articles.sort_by(&:date).reverse.first(25) %>
     <% posts.each do |post| %>
+    <% is_photo_post = photo_article?(post) || present_value?(post.data.photo) %>
     <item>
-      <% if post.data.title %>
+      <% if post.data.title && !is_photo_post %>
       <title><%= CGI.escapeHTML(post.data.title) %></title>
       <% end %>
       <link><%= canonical_url(post) %></link>

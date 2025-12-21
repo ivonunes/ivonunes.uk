@@ -44,12 +44,9 @@ module SiteHelpers
   end
 
   def photo_article?(resource = current_page)
-    return false unless resource.respond_to?(:blog_data)
+    return false unless resource.respond_to?(:data)
 
-    blog_data = resource.blog_data
-    return false unless blog_data.respond_to?(:name)
-
-    blog_data.name.to_s == "photos"
+    present_value?(resource.data.photo)
   end
 
   def resource_translate_value(index)

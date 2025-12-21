@@ -6,25 +6,32 @@ pageable: true
   <% articles = defined?(page_articles) ? page_articles : blog(:blog).articles.sort_by(&:date).reverse %>
   <% articles.each do |article| %>
     <article class="h-entry">
-      <% title = article.data.title %>
+      <% article_data = article.data %>
+      <% title = article_data.title %>
       <% article_date = article.date %>
-      <% summary_source = article.data.summary unless blank_value?(article.data.summary) %>
-      <% summary_source ||= article.summary(250) %>
-      <% summary_plain = normalize_whitespace(summary_source) %>
+      <% is_photo_post = photo_article?(article) || present_value?(article_data.photo) %>
+      <% summary_plain = nil %>
       <% content_plain = normalize_whitespace(article.body) %>
+      <% unless is_photo_post %>
+        <% summary_source = article_data.summary unless blank_value?(article_data.summary) %>
+        <% summary_source ||= article.summary(250) %>
+        <% summary_plain = normalize_whitespace(summary_source) %>
+      <% end %>
 
-      <% if title %>
+      <% if title && !is_photo_post %>
         <h2 class="post-title"><a href="<%= article.url %>" class="u-url"><%= title %></a></h2>
         <p class="post-date">
           <time class="dt-published" datetime="<%= article_date.iso8601 %>">
             <%= article_date.strftime("%A, %-d %B %Y") %>
           </time>
         </p>
-        <div class="excerpt">
-          <p><%= truncate_words(summary_plain, 70) %></p>
-        </div>
-        <% if summary_plain != content_plain %>
-          <p><a href="<%= article.url %>" class="u-url">Continue reading →</a></p>
+        <% if summary_plain %>
+          <div class="excerpt">
+            <p><%= truncate_words(summary_plain, 70) %></p>
+          </div>
+          <% if summary_plain != content_plain %>
+            <p><a href="<%= article.url %>" class="u-url">Continue reading →</a></p>
+          <% end %>
         <% end %>
       <% else %>
         <p class="post-date btm-margin">

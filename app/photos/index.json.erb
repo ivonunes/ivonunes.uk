@@ -3,7 +3,7 @@ layout: false
 permalink: /photos/index.json
 ---
 <%
-  photo_posts = blog(:photos).articles.sort_by(&:date).reverse
+  photo_posts = blog(:blog).articles.select { |article| present_value?(article.data.photo) }.sort_by(&:date).reverse
   items = photo_posts.map do |post|
     entry = {
       id: canonical_url(post),

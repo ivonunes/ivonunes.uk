@@ -9,7 +9,7 @@ navigation: true
 <main class="photos">
   <h1 class="page-title">Photos</h1>
   <ul class="grid" data-controller="photo-grid">
-    <% photo_posts = blog(:photos).articles.sort_by(&:date).reverse %>
+    <% photo_posts = blog(:blog).articles.select { |article| present_value?(article.data.photo) }.sort_by(&:date).reverse %>
     <% photo_posts.each do |post| %>
       <li>
         <a href="<%= post.url %>">
