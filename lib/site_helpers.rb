@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module SiteHelpers
   def site_data
     data.site
@@ -98,5 +100,49 @@ module SiteHelpers
 
   def import_map
     @_import_map ||= ImportMapLoader.load(app.root)
+  end
+
+  def rss_author_name
+    author_name = site_data.author&.name
+    author_name = site_data.title if blank_value?(author_name)
+    author_name
+  end
+
+  def absolutize_image_sources(html)
+    return html if blank_value?(html)
+
+    fragment = Nokogiri::HTML.fragment(html)
+    fragment.css('img').each do |img|
+      img['src'] = absolute_image_url(img['src']) if img['src']
+      img['srcset'] = absolutize_srcset(img['srcset']) if img['srcset']
+    end
+
+    fragment.to_html
+  end
+
+  private
+
+  def absolute_image_url(value)
+    return value if blank_value?(value)
+
+    absolute_url(value)
+  rescue URI::Error
+    value
+  end
+
+  def absolutize_srcset(srcset)
+    return srcset if blank_value?(srcset)
+
+    candidates = srcset.split(',').map do |candidate|
+      url, descriptor = candidate.strip.split(/\s+/, 2)
+      next candidate if blank_value?(url)
+
+      absolute = absolute_image_url(url)
+      descriptor ? "#{absolute} #{descriptor}" : absolute
+    end
+
+    candidates.join(', ')
+  rescue URI::Error
+    srcset
   end
 end

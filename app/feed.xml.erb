@@ -19,12 +19,13 @@ permalink: /feed.xml
       <% end %>
       <link><%= canonical_url(post) %></link>
       <pubDate><%= post.date.strftime('%a, %d %b %Y %H:%M:%S %z') %></pubDate>
-      <% author_email = site_data.author&.email %>
-      <% if author_email %>
-      <author><%= CGI.escapeHTML(author_email) %><% if site_data.author&.name %> (<%= CGI.escapeHTML(site_data.author.name) %>)<% end %></author>
+      <% author_name = rss_author_name %>
+      <% if author_name %>
+      <author><%= CGI.escapeHTML(author_name) %></author>
       <% end %>
       <guid><%= canonical_url(post) %></guid>
-      <description><%= CGI.escapeHTML(post.body) %></description>
+      <% feed_body = absolutize_image_sources(post.body) %>
+      <description><%= CGI.escapeHTML(feed_body) %></description>
     </item>
     <% end %>
   </channel>
