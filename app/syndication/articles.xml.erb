@@ -1,0 +1,30 @@
+---
+layout: false
+permalink: /syndication/articles.xml
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title><%= site_data.title %> - Articles</title>
+    <link><%= absolute_url('/') %></link>
+    <description>Articles from <%= site_data.title %></description>
+    <language><%= site_data.lang %></language>
+    <lastBuildDate><%= Time.now.strftime('%a, %d %b %Y %H:%M:%S %z') %></lastBuildDate>
+    <% article_blog_articles(limit: 25).each do |post| %>
+    <item>
+      <% if present_value?(post.data.title) %>
+      <title><%= CGI.escapeHTML(post.data.title) %></title>
+      <% end %>
+      <link><%= canonical_url(post) %></link>
+      <pubDate><%= post.date.strftime('%a, %d %b %Y %H:%M:%S %z') %></pubDate>
+      <% author_name = rss_author_name %>
+      <% if author_name %>
+      <author><%= CGI.escapeHTML(author_name) %></author>
+      <% end %>
+      <guid><%= canonical_url(post) %></guid>
+      <% plain_text = plain_text_without_images(post.body) %>
+      <description><%= xml_escape(plain_text) %></description>
+    </item>
+    <% end %>
+  </channel>
+</rss>

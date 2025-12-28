@@ -1,0 +1,31 @@
+---
+layout: false
+permalink: /syndication/photos.xml
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title><%= site_data.title %> - Photos</title>
+    <link><%= absolute_url('/') %></link>
+    <description>Photo posts from <%= site_data.title %></description>
+    <language><%= site_data.lang %></language>
+    <lastBuildDate><%= Time.now.strftime('%a, %d %b %Y %H:%M:%S %z') %></lastBuildDate>
+    <% photo_blog_articles(limit: 25).each do |post| %>
+    <% image_url = post.data.photo ? absolute_url(post.data.photo) : canonical_url(post) %>
+    <item>
+      <% if present_value?(post.data.title) %>
+      <title><%= CGI.escapeHTML(post.data.title) %></title>
+      <% end %>
+      <link><%= image_url %></link>
+      <pubDate><%= post.date.strftime('%a, %d %b %Y %H:%M:%S %z') %></pubDate>
+      <% author_name = rss_author_name %>
+      <% if author_name %>
+      <author><%= CGI.escapeHTML(author_name) %></author>
+      <% end %>
+      <guid><%= canonical_url(post) %></guid>
+      <% plain_text = plain_text_without_images(post.body) %>
+      <description><%= xml_escape(plain_text) %></description>
+    </item>
+    <% end %>
+  </channel>
+</rss>

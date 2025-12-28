@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'cgi'
 
 module SiteHelpers
   def site_data
@@ -108,6 +109,14 @@ module SiteHelpers
     author_name
   end
 
+  def photo_blog_articles(limit: 25)
+    blog_articles_by_type(photo: true, limit: limit)
+  end
+
+  def article_blog_articles(limit: 25)
+    blog_articles_by_type(photo: false, limit: limit)
+  end
+
   def absolutize_image_sources(html)
     return html if blank_value?(html)
 
@@ -120,7 +129,41 @@ module SiteHelpers
     fragment.to_html
   end
 
+  def plain_text_without_images(html)
+    return "" if blank_value?(html)
+
+    fragment = Nokogiri::HTML.fragment(html)
+    fragment.css('img').remove
+
+    text = fragment.children.map { |child| extract_plain_text(child) }.join
+    text = text.gsub(/\r\n?/, "\n")
+    text = text.lines.map { |line| line.rstrip }.join("\n")
+    text = text.gsub(/\n{3,}/, "\n\n").strip
+    CGI.unescapeHTML(text)
+  end
+  alias_method :plain_text_content, :plain_text_without_images
+
+  def xml_escape(value)
+    return "" if value.nil?
+
+    value
+      .to_s
+      .gsub('&', '&amp;')
+      .gsub('<', '&lt;')
+      .gsub('>', '&gt;')
+  end
+
   private
+
+  def blog_articles_by_type(photo:, limit:)
+    posts = blog(:blog).articles.sort_by(&:date).reverse
+    posts = if photo
+              posts.select { |post| photo_article?(post) }
+            else
+              posts.reject { |post| photo_article?(post) }
+            end
+    limit ? posts.first(limit) : posts
+  end
 
   def absolute_image_url(value)
     return value if blank_value?(value)
@@ -144,5 +187,26 @@ module SiteHelpers
     candidates.join(', ')
   rescue URI::Error
     srcset
+  end
+
+  def extract_plain_text(node)
+    case node
+    when Nokogiri::XML::Text
+      node.text
+    when Nokogiri::XML::Element
+      return "\n" if node.name == 'br'
+
+      content = node.children.map { |child| extract_plain_text(child) }.join
+      stripped = content.strip
+      return "" if stripped.empty?
+
+      block_level_element?(node.name) ? "#{stripped}\n\n" : content
+    else
+      ""
+    end
+  end
+
+  def block_level_element?(name)
+    %w[address article aside blockquote canvas dd div dl dt fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 header hgroup hr li main nav noscript ol output p pre section table tfoot ul video].include?(name)
   end
 end
