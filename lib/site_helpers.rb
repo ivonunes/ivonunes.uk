@@ -11,7 +11,7 @@ module SiteHelpers
     page_title = current_page.data.title
 
     if page_title && page_title != base_title
-      "#{base_title} | #{page_title}"
+      "#{page_title} | #{base_title}"
     else
       base_title
     end
@@ -28,7 +28,7 @@ module SiteHelpers
 
   def nav_resources
     sitemap.resources
-           .select { |res| res.data.menu == "main" }
+           .select { |res| res.data.menu == 'main' }
            .uniq
            .sort_by { |res| res.data.weight || 0 }
   end
@@ -37,11 +37,11 @@ module SiteHelpers
     current = current_page
     resource_url = resource.url
 
-    return true if resource_url == "/" && current.url == "/"
-    return true if resource_url != "/" && current.url.start_with?(resource_url)
+    return true if resource_url == '/' && current.url == '/'
+    return true if resource_url != '/' && current.url.start_with?(resource_url)
 
     photos_title = resource.data.title&.downcase
-    return true if photos_title == "photos" && (photo_article?(current) || current.data.photo)
+    return true if photos_title == 'photos' && (photo_article?(current) || current.data.photo)
 
     false
   end
@@ -67,7 +67,7 @@ module SiteHelpers
   end
 
   def normalize_whitespace(value)
-    value.to_s.gsub(/<[^>]*>/, " ").gsub(/\s+/, " ").strip
+    value.to_s.gsub(/<[^>]*>/, ' ').gsub(/\s+/, ' ').strip
   end
 
   def blank_value?(value)
@@ -96,7 +96,7 @@ module SiteHelpers
 
     return value if value
 
-    return '/feed.xml' if key.to_sym == :rss
+    '/feed.xml' if key.to_sym == :rss
   end
 
   def import_map
@@ -130,7 +130,7 @@ module SiteHelpers
   end
 
   def plain_text_without_images(html)
-    return "" if blank_value?(html)
+    return '' if blank_value?(html)
 
     fragment = Nokogiri::HTML.fragment(html)
     fragment.css('img').remove
@@ -141,10 +141,10 @@ module SiteHelpers
     text = text.gsub(/\n{3,}/, "\n\n").strip
     CGI.unescapeHTML(text)
   end
-  alias_method :plain_text_content, :plain_text_without_images
+  alias plain_text_content plain_text_without_images
 
   def xml_escape(value)
-    return "" if value.nil?
+    return '' if value.nil?
 
     value
       .to_s
@@ -198,15 +198,16 @@ module SiteHelpers
 
       content = node.children.map { |child| extract_plain_text(child) }.join
       stripped = content.strip
-      return "" if stripped.empty?
+      return '' if stripped.empty?
 
       block_level_element?(node.name) ? "#{stripped}\n\n" : content
     else
-      ""
+      ''
     end
   end
 
   def block_level_element?(name)
-    %w[address article aside blockquote canvas dd div dl dt fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 header hgroup hr li main nav noscript ol output p pre section table tfoot ul video].include?(name)
+    %w[address article aside blockquote canvas dd div dl dt fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6
+       header hgroup hr li main nav noscript ol output p pre section table tfoot ul video].include?(name)
   end
 end
