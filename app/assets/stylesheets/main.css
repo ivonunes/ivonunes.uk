@@ -1291,3 +1291,15 @@ ul.main-tabs li {
     transform: scale3d(1, 1, 1);
   }
 }
+
+.small-web {
+  display: inline-block;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.small-web img {
+  display: inline-block;
+  border-radius: 16px;
+}
+
