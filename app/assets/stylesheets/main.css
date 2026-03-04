@@ -919,6 +919,17 @@ footer .social {
   margin: 20px 0;
 }
 
+footer .social a {
+  font-size: 2rem;
+  filter: brightness(1);
+  transition: 0.1s filter ease-in-out;
+  margin: 0 2px;
+}
+
+footer .social a:hover {
+  filter: brightness(1.5);
+}
+
 .credits {
   margin-top: 3rem;
 }
@@ -1296,6 +1307,12 @@ ul.main-tabs li {
   display: inline-block;
   margin: 20px auto;
   text-align: center;
+  filter: brightness(1);
+  transition: 0.1s filter ease-in-out;
+}
+
+.small-web:hover {
+  filter: brightness(1.05);
 }
 
 .small-web img {

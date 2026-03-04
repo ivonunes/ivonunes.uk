@@ -1,25 +1,25 @@
 <footer>
   <div class="social">
     <% [
-      [:rss, 'fa-solid fa-rss', "#{site_data.title} RSS Feed"],
-      [:bluesky, 'fa-brands fa-bluesky', "Ivo Nunes on Bluesky"],
-      [:mastodon, 'fa-brands fa-mastodon', "Ivo Nunes on Mastodon"],
-      [:flickr, 'fa-brands fa-flickr', "Ivo Nunes on Flickr"],
-      [:linkedin, 'fa-brands fa-linkedin', "Ivo Nunes on LinkedIn"],
-      [:github, 'fa-brands fa-github', "Ivo Nunes on GitHub"],
-      [:email, 'fa-solid fa-envelope', "Email Ivo Nunes"]
-    ].each do |key, icon, label| %>
+      [:rss, 'fa-solid fa-rss', '#ee802f', "#{site_data.title} RSS Feed"],
+      [:bluesky, 'fa-brands fa-bluesky', '#006AFF', "Ivo Nunes on Bluesky"],
+      [:mastodon, 'fa-brands fa-mastodon', '#615ef8', "Ivo Nunes on Mastodon"],
+      [:flickr, 'fa-brands fa-flickr', '#ff0084', "Ivo Nunes on Flickr"],
+      [:linkedin, 'fa-brands fa-linkedin', '#0a66c2', "Ivo Nunes on LinkedIn"],
+      [:github, 'fa-brands fa-github', '#333', "Ivo Nunes on GitHub"],
+      [:email, 'fa-solid fa-envelope', 'var(--link)', "Email Ivo Nunes"]
+    ].each do |key, icon, color, label| %>
       <% url = social_link_for(key) %>
       <% next unless url %>
       <% external = !(url.start_with?('mailto:') || url.start_with?('/')) %>
-      <a href="<%= url %>"<%= external ? ' target="_blank" rel="noopener"' : '' %> title="<%= label %>"><i class="<%= icon %>"></i></a>
+      <a href="<%= url %>"<%= external ? ' target="_blank" rel="noopener"' : '' %> style="color: <%= color %>" title="<%= label %>"><i class="<%= icon %>"></i></a>
     <% end %>
   </div>
 
   <p>Made with <span class="red">♥</span> in the UK.</p>
 
   <a href="https://kagi.com/smallweb" title="Kagi Small Web" target="_blank" class="small-web">
-    <img src="/assets/images/small-web.png" alt="Kagi Small Web badge">
+    <img src="/assets/images/small-web.gif" alt="Kagi Small Web badge">
   </a>
 </footer>
 <%= partial "partials/scroll_to_top" %>
