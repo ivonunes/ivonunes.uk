@@ -8,7 +8,7 @@ require_relative "lib/site_helpers"
 require_relative "lib/import_map_loader"
 
 set :markdown_engine, :kramdown
-set :markdown, input: "GFM", hard_wrap: false, smartypants: true
+set :markdown, input: "GFM", hard_wrap: true, smartypants: true
 
 set :source, "app"
 set :css_dir, "assets/stylesheets"
