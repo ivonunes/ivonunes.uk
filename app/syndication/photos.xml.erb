@@ -23,7 +23,7 @@ permalink: /syndication/photos.xml
       <author><%= CGI.escapeHTML(author_name) %></author>
       <% end %>
       <guid><%= canonical_url(post) %></guid>
-      <% plain_text = plain_text_without_images(post.body) %>
+      <% plain_text = plain_text_without_images(post.body).gsub(/\n{2,}/, "\n") %>
       <description><%= xml_escape(plain_text) %></description>
     </item>
     <% end %>
