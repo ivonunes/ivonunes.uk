@@ -5,4 +5,4 @@ gem "middleman-blog", "~> 4.2"
 
 gem "kramdown", "~> 2.4"
 gem "kramdown-parser-gfm", "~> 1.1"
-gem "nokogiri", "~> 1.16"
+gem "nokogiri", "~> 1.19"
