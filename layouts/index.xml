@@ -1,4 +1,4 @@
-<rss version="2.0">
+<rss xmlns:source="http://source.scripting.com/" version="2.0">
   <script src="{{ "js/rss-style.js" | relURL }}" xmlns="http://www.w3.org/1999/xhtml"></script>
   <channel>
     <title>{{ if eq  .Title  .Site.Title }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{.}} on {{ end }}{{ .Site.Title }}{{ end }}</title>
@@ -21,6 +21,7 @@
       <guid>{{ .Permalink }}</guid>
       {{- end }}
       <description>{{ .Content | html }}</description>
+      <source:markdown>{{ .RawContent | html }}</source:markdown>
     </item>
     {{ end }}
   </channel>

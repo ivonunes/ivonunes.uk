@@ -1,5 +1,17 @@
 <header class="header animate__animated animate__fadeInDown">
   <nav class="site-nav">
+    {{- $currentRelPermalink := $.RelPermalink -}}
+    {{- $currentPermalink := $.Permalink -}}
+    {{- if $.Scratch.Get "isPhotosPage" -}}
+      {{- $currentRelPermalink = "/photos/" -}}
+      {{- $currentPermalink = "photos/" | absURL -}}
+    {{- end -}}
+    {{- $isPhotosActive := or
+      (eq (trim $currentRelPermalink "/") "photos")
+      (hasPrefix $currentRelPermalink "/photos/")
+      (in $currentPermalink "/photos/")
+      $.Params.photos
+    -}}
     <div class="h-card">
       {{- $avatar := .Site.Params.custom_avatar }}
       <h1 class="site-title"><a href="https://ivonunes.uk/" class="u-url"><img id="avatar" class="u-photo" src="{{ if $avatar }}{{ $avatar }}{{ else }}{{ .Site.Author.avatar }}{{ end }}" alt="Profile picture" width="36" height="36" /><span class="p-name">{{ .Site.Title }}</span></a></h1>
@@ -25,9 +37,9 @@
             {{- range .Site.Menus.main -}}
               {{- $url := .URL | relLangURL -}}
               {{- if ne $url "/" -}}
-                {{- if hasPrefix $.RelPermalink $url -}}{{ $anyMenuActive = true }}{{ end -}}
+                {{- if hasPrefix $currentRelPermalink $url -}}{{ $anyMenuActive = true }}{{ end -}}
               {{- end -}}
-              {{- if and (eq (lower .Name) "photos") $.Params.photos -}}{{ $anyMenuActive = true }}{{ end -}}
+              {{- if and (eq (lower .Name) "photos") $isPhotosActive -}}{{ $anyMenuActive = true }}{{ end -}}
             {{- end -}}
 
             <li>
@@ -41,14 +53,14 @@
             {{- $url := .URL | relLangURL -}}
             {{- $isActive := false -}}
             {{- if eq $url "/" -}}
-              {{- if eq $.RelPermalink "/" -}}{{ $isActive = true }}{{ end -}}
+              {{- if eq $currentRelPermalink "/" -}}{{ $isActive = true }}{{ end -}}
             {{- else -}}
-              {{- if hasPrefix $.RelPermalink $url -}}{{ $isActive = true }}{{ end -}}
+              {{- if hasPrefix $currentRelPermalink $url -}}{{ $isActive = true }}{{ end -}}
             {{- end -}}
-            {{- if and (eq (lower .Name) "photos") $.Params.photos -}}{{ $isActive = true }}{{ end -}}
+            {{- if and (eq (lower .Name) "photos") $isPhotosActive -}}{{ $isActive = true }}{{ end -}}
             <li>
               {{- if .Page.Params.redirect_url -}}
-              <a href="{{ .Page.Params.redirect_url }}" target="_blank" class="nav-link" data-translate-value="{{ mul (add $displayIndex 1) 100 }}%">
+              <a href="{{ .Page.Params.redirect_url }}" target="_blank" class="nav-link{{ if $isActive }} active{{ end }}" data-translate-value="{{ mul (add $displayIndex 1) 100 }}%">
                 <i class="{{ template "getMenuIcon" . }}"></i>
                 {{ .Name }}
               </a>

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+  {{ .Scratch.Set "isPhotosPage" false }}
+  {{ block "page_context" . }}{{ end }}
   {{ partial "head.html" . }}
   <body>
     {{ partial "header.html" . }}
