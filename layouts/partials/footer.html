@@ -1,0 +1,25 @@
+<footer>
+  <div class="social">
+    <a href="{{ "feed.xml" | relURL }}" class="social-link social-rss" title="Ivo Nunes RSS Feed"><i class="fa-solid fa-rss"></i></a>
+    <a href="https://bsky.app/profile/ivonunes.uk" target="_blank" rel="noopener" class="social-link social-bluesky" title="Ivo Nunes on Bluesky"><i class="fa-brands fa-bluesky"></i></a>
+    <a href="https://micro.blog/ivonunes?remote_follow=1" target="_blank" rel="noopener" class="social-link social-mastodon" title="Follow Ivo Nunes on Mastodon"><i class="fa-brands fa-mastodon"></i></a>
+    <a href="https://micro.blog/ivonunes" target="_blank" rel="noopener" class="social-link social-microblog" title="Ivo Nunes on Micro.blog"><i class="fa-brands fa-microblog"></i></a>
+    <a href="https://www.flickr.com/photos/ivonunes/" target="_blank" rel="noopener" class="social-link social-flickr" title="Ivo Nunes on Flickr"><i class="fa-brands fa-flickr"></i></a>
+    <a href="https://linkedin.com/in/ivonunes/" target="_blank" rel="noopener" class="social-link social-linkedin" title="Ivo Nunes on LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+    <a href="https://github.com/ivonunes" target="_blank" rel="noopener" class="social-link social-github" title="Ivo Nunes on GitHub"><i class="fa-brands fa-github"></i></a>
+    <a href="mailto:ivo@nunes.uk" class="social-link social-email" title="Email Ivo Nunes"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+  <p>Made with <span class="red">♥</span> in the UK.</p>
+
+  <div class="footer-badges">
+    <a href="https://indieweb.org/" title="IndieWeb" target="_blank" rel="noopener" class="small-web">
+      <img src="{{ "images/indieweb.png" | relURL }}" alt="IndieWeb badge">
+    </a>
+    <a href="https://kagi.com/smallweb" title="Kagi Small Web" target="_blank" rel="noopener" class="small-web">
+      <img src="{{ "images/small-web.gif" | relURL }}" alt="Kagi Small Web badge">
+    </a>
+  </div>
+
+  {{ partial "custom_footer.html" . }}
+</footer>
+{{ partial "scroll-to-top.html" .}}
