@@ -33,5 +33,13 @@ layout: layout.njk
     </p>
     {% endif %}
   </article>
+  {% if prevPost or nextPost %}
+  <nav class="page-nav">
+    <ul>
+      <li>{% if prevPost %}<a href="{{ prevPost.url }}">← Older</a>{% endif %}</li>
+      <li>{% if nextPost %}<a href="{{ nextPost.url }}">Newer →</a>{% endif %}</li>
+    </ul>
+  </nav>
+  {% endif %}
 </main>
 {% endblock %}

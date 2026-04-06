@@ -1,9 +1,15 @@
 ---
 layout: layout.njk
+pagination:
+  data: collections.posts
+  size: 10
+  alias: posts
+  reverse: false
+permalink: "{% if pagination.pageNumber == 0 %}/{% else %}/page/{{ pagination.pageNumber + 1 }}/{% endif %}"
 ---
 {% block main %}
 <main>
-  {% for post in collections.posts | limit(25) %}
+  {% for post in posts %}
   <article class="h-entry">
     {% if post.data.title %}
     <h2 class="post-title"><a href="{{ post.url }}" class="u-url p-name">{{ post.data.title | safe }}</a></h2>
@@ -32,5 +38,21 @@ layout: layout.njk
     {% for url in post.data.syndicationUrls %}<a class="u-syndication hidden" href="{{ url }}">Syndication</a>{% endfor %}
   </article>
   {% endfor %}
+  {% if pagination.href.previous or pagination.href.next %}
+  <nav class="page-nav">
+    <ul>
+      <li>
+        {% if pagination.href.next %}
+        <a href="{{ pagination.href.next }}">← Older</a>
+        {% endif %}
+      </li>
+      <li>
+        {% if pagination.href.previous %}
+        <a href="{{ pagination.href.previous }}">Newer →</a>
+        {% endif %}
+      </li>
+    </ul>
+  </nav>
+  {% endif %}
 </main>
 {% endblock %}
