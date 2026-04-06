@@ -1,0 +1,13 @@
+---
+layout: layout.njk
+---
+{% block main %}
+<main>
+  <article>
+    {% if title %}
+    <h1 class="page-title">{{ title | safe }}</h1>
+    {% endif %}
+    {{ content | safe }}
+  </article>
+</main>
+{% endblock %}

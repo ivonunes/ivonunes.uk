@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="{{ site.lang }}">
+  {% include "partials/head.njk" %}
+  <body>
+    {% include "partials/header.njk" %}
+    <div class="wrapper animate__animated animate__slideInUp">
+      {% block main %}{{ content | safe }}{% endblock %}
+      {% include "partials/footer.njk" %}
+    </div>
+  </body>
+</html>

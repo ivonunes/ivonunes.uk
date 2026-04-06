@@ -1,0 +1,37 @@
+---
+layout: layout.njk
+---
+{% block main %}
+<main>
+  <article class="h-entry">
+    {% if title %}
+    <h1 class="post-title p-name">{{ title | safe }}</h1>
+    <p class="post-date">
+      <time class="dt-published" datetime="{{ date | dateIso }}">{{ date | dateDisplay }}</time>
+      {% if lastmod %}<time class="dt-updated hidden" datetime="{{ lastmod | dateIso }}">{{ lastmod | dateDisplay }}</time>{% endif %}
+    </p>
+    {% else %}
+    <p class="post-date btm-margin">
+      <time class="dt-published" datetime="{{ date | dateIso }}">{{ date | dateDisplay }}</time>
+      {% if lastmod %}<time class="dt-updated hidden" datetime="{{ lastmod | dateIso }}">{{ lastmod | dateDisplay }}</time>{% endif %}
+    </p>
+    <data class="p-name" value="{{ postName | escape }}"></data>
+    {% endif %}
+    <a class="u-url u-uid hidden" href="{{ page.url | absoluteUrl }}">Permalink</a>
+    <a class="p-author h-card hidden" href="{{ site.url }}/">
+      <span class="p-name">{{ site.author.name }}</span>
+    </a>
+    {% for url in syndicationUrls %}<a class="u-syndication hidden" href="{{ url }}">Syndication</a>{% endfor %}
+    <div class="e-content">
+      {{ content | enhancePostHtml({ isPhotoPost: isPhotoPost }) | safe }}
+    </div>
+    {% if categories and categories.length %}
+    <p>
+      {% for category in categories %}
+      <a href="/categories/{{ category | lower | replace(' ', '-') }}/" class="category">#{{ category }}</a>
+      {% endfor %}
+    </p>
+    {% endif %}
+  </article>
+</main>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% set isPhotosActive = page.url == '/photos/' or (page.url | startsWith('/photos/')) or isPhotoPost %}
+{% set isProjectsActive = page.url == '/projects/' or (page.url | startsWith('/projects/')) %}
+{% set anyMenuActive = isPhotosActive or isProjectsActive %}
+<header class="header animate__animated animate__fadeInDown">
+  <nav class="site-nav">
+    <div class="h-card">
+      <h1 class="site-title"><a href="{{ site.url }}/" class="u-url"><img id="avatar" class="u-photo" src="{{ site.author.avatar }}" alt="Profile picture" width="36" height="36"><span class="p-name">{{ site.title }}</span></a></h1>
+      <p class="p-note">{{ site.author.bio | safe }}</p>
+    </div>
+
+    <nav class="site-nav-menu">
+      <div class="main-tabs-container">
+        <div class="main-tabs-wrapper">
+          <ul class="main-tabs">
+            <li>
+              <a href="/" class="nav-link{% if not anyMenuActive %} active{% endif %}" data-translate-value="0">
+                <i class="fa-solid fa-newspaper"></i>
+                Blog
+              </a>
+            </li>
+            {% for item in site.navigation %}
+            {% set isActive = (item.name == 'Photos' and isPhotosActive) or (item.name == 'Projects' and isProjectsActive) %}
+            <li>
+              <a href="{{ item.url }}" class="nav-link{% if isActive %} active{% endif %}" data-translate-value="{{ loop.index * 100 }}%">
+                <i class="{{ item.icon }}"></i>
+                {{ item.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="main-slider" aria-hidden="true">
+            <div class="main-slider-circle">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </nav>
+</header>

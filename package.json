@@ -1,0 +1,28 @@
+{
+  "name": "ivonunes.uk",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf build .cache",
+    "build:admin": "esbuild @sveltia/cms --bundle --format=iife --outfile=.cache/assets/scripts/admin.js --global-name=SveltiaCMS",
+    "build:js": "mkdir -p .cache/assets/scripts && esbuild src/scripts/application.js --bundle --format=iife --outfile=.cache/assets/scripts/application.js",
+    "build:site": "eleventy",
+    "build": "npm run clean && npm run build:admin && npm run build:js && npm run build:site",
+    "watch:admin": "esbuild @sveltia/cms --bundle --format=iife --outfile=.cache/assets/scripts/admin.js --global-name=SveltiaCMS --watch",
+    "watch:js": "mkdir -p .cache/assets/scripts && esbuild src/scripts/application.js --bundle --format=iife --outfile=.cache/assets/scripts/application.js --watch",
+    "serve": "eleventy --serve",
+    "dev": "npm run build:admin && npm run build:js && concurrently --kill-others-on-fail \"npm:watch:admin\" \"npm:watch:js\" \"npm:serve\"",
+    "deploy:worker": "npm run build && npx wrangler deploy",
+    "syndicate": "node utils/syndication.mjs"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@hotwired/turbo": "^8.0.13",
+    "@sveltia/cms": "^0.152.1",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "esbuild": "^0.24.0"
+  }
+}

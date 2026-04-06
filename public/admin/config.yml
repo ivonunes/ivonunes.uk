@@ -1,0 +1,42 @@
+backend:
+  name: github
+  repo: ivonunes/ivonunes.uk
+  branch: main
+  base_url: https://ivonunes.uk/admin/oauth
+
+site_url: https://ivonunes.uk
+media_folder: public/uploads/{{year}}
+public_folder: /uploads/{{year}}
+publish_mode: editorial_workflow
+
+collections:
+  - name: posts
+    label: Posts
+    folder: src/posts
+    create: true
+    extension: md
+    format: frontmatter
+    sortable_fields:
+      fields: [date, title]
+      default:
+        field: date
+        direction: descending
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{date}} {{title}}'
+    fields:
+      - { label: Title, name: title, widget: string, required: false }
+      - { label: Date, name: date, widget: datetime, picker_utc: true, default: '{{now}}' }
+      - label: Syndication Targets
+        name: syndicate_to
+        widget: select
+        multiple: true
+        required: false
+        default:
+          - https://brid.gy/publish/bluesky
+          - https://brid.gy/publish/mastodon
+          - https://brid.gy/publish/flickr
+        options:
+          - { label: Bluesky, value: https://brid.gy/publish/bluesky }
+          - { label: Mastodon, value: https://brid.gy/publish/mastodon }
+          - { label: Flickr, value: https://brid.gy/publish/flickr }
+      - { label: Body, name: body, widget: markdown }

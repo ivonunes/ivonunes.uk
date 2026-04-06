@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ivonunes",
+  "main": "_worker.js",
+  "compatibility_date": "2026-04-06",
+  "preview_urls": false,
+  "vars": {
+    "ALLOWED_DOMAINS": "ivonunes.uk"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./build",
+    "binding": "ASSETS"
+  },
+  "routes": [
+    {
+      "pattern": "ivonunes.uk",
+      "custom_domain": true
+    }
+  ]
+}

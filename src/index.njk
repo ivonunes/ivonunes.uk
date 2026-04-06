@@ -1,0 +1,36 @@
+---
+layout: layout.njk
+---
+{% block main %}
+<main>
+  {% for post in collections.posts | limit(25) %}
+  <article class="h-entry">
+    {% if post.data.title %}
+    <h2 class="post-title"><a href="{{ post.url }}" class="u-url p-name">{{ post.data.title | safe }}</a></h2>
+    <p class="post-date">
+      <time class="dt-published" datetime="{{ post.date | dateIso }}">{{ post.date | dateDisplay }}</time>
+    </p>
+    <p class="hidden p-author h-card"><a class="u-url" href="{{ site.url }}/"><span class="p-name">{{ site.author.name }}</span></a></p>
+    {% if post.data.indexExcerpt %}
+    <div class="e-content excerpt">
+      <p>{{ post.data.indexExcerpt }}</p>
+    </div>
+    {% if post.data.indexHasMore %}
+    <p><a href="{{ post.url }}" class="u-url">Continue reading →</a></p>
+    {% endif %}
+    {% endif %}
+    {% else %}
+    <p class="post-date btm-margin">
+      <time class="dt-published" datetime="{{ post.date | dateIso }}"><a href="{{ post.url }}" class="u-url">{{ post.date | dateDisplay }} →</a></time>
+    </p>
+    <data class="p-name" value="{{ post.data.postName | escape }}"></data>
+    <p class="hidden p-author h-card"><a class="u-url" href="{{ site.url }}/"><span class="p-name">{{ site.author.name }}</span></a></p>
+    <div class="e-content">
+      {{ post.templateContent | enhancePostHtml(post.data) | safe }}
+    </div>
+    {% endif %}
+    {% for url in post.data.syndicationUrls %}<a class="u-syndication hidden" href="{{ url }}">Syndication</a>{% endfor %}
+  </article>
+  {% endfor %}
+</main>
+{% endblock %}
