@@ -17,7 +17,7 @@
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
     "@hotwired/turbo": "^8.0.13",
-    "@sveltia/cms": "^0.152.2",
+    "@sveltia/cms": "^0.153.0",
     "gray-matter": "^4.0.3",
     "markdown-it": "^14.1.0"
   },
