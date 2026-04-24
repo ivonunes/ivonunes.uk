@@ -7,18 +7,14 @@ const State = {
   lastHover: null
 };
 
-const Utils = {
-  formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
-  }
-};
-
 const GitHubRepos = {
   customProjects: [
+    {
+      html_url: "https://www.mythblade.com",
+      name: "mythblade",
+      description: "Online role playing game.",
+      metaLabel: "Visit website"
+    },
     {
       html_url: "https://mooziko.com",
       name: "mooziko",
@@ -43,10 +39,18 @@ const GitHubRepos = {
     }
   },
 
+  formatDescription(description) {
+    const text = (description || "").trim();
+    if (!text) return "";
+
+    return text.endsWith(".") ? text : `${text}.`;
+  },
+
   createRepoHTML(repo) {
     const metaLabel = repo.updated_at
-      ? `Last updated on ${Utils.formatDate(repo.updated_at)}`
+      ? "View source"
       : repo.metaLabel || "";
+    const description = this.formatDescription(repo.description);
     const metaHTML = metaLabel
       ? `
         <div class="microblog_time">
@@ -63,7 +67,7 @@ const GitHubRepos = {
           <a href="${repo.html_url}" target="_blank" rel="noopener">${repo.name}</a>
         </div>
         <div class="microblog_text">
-          <p>${repo.description || ""}</p>
+          <p>${description}</p>
         </div>
         ${metaHTML}
       </div>
@@ -88,7 +92,8 @@ const GitHubRepos = {
       return;
     }
 
-    const activeRepos = [...State.gitHubRepos.filter((repo) => !repo.archived), ...this.customProjects];
+    const [featuredProject, ...trailingProjects] = this.customProjects;
+    const activeRepos = [featuredProject, ...State.gitHubRepos.filter((repo) => !repo.archived), ...trailingProjects];
     const archivedRepos = State.gitHubRepos.filter((repo) => repo.archived);
 
     repoContainer.innerHTML = [

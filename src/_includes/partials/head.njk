@@ -1,7 +1,7 @@
 {% set currentTitle = title or pageTitle %}
 {% set fullTitle = site.title %}
 {% if currentTitle and currentTitle != site.title %}
-  {% set fullTitle = site.title + ' | ' + currentTitle %}
+  {% set fullTitle = currentTitle + ' | ' + site.title %}
 {% endif %}
 {% set canonicalUrl = (page.url or '/') | absoluteUrl %}
 {% set metaDescription = description or site.description %}
